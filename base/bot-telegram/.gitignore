@@ -1,0 +1,15 @@
+# nada de segredo nem de estado vai pro git
+.env
+config.env
+bot.log
+sessions.json
+sessions.json.*
+topic_names.json
+autonamed.json
+chat_topics.json
+incoming/
+venv/
+whisper-models/
+piper-voices/
+__pycache__/
+PAUSED

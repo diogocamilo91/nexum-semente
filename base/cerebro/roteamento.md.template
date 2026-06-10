@@ -1,0 +1,61 @@
+# {NOME_ASSISTENTE} — Mapa de roteamento (onde vai cada assunto)
+
+<!--
+  TEMPLATE DO KIT SEMENTE — slots a preencher na instalação:
+  {NOME_ASSISTENTE}   = nome do assistente
+  {NOME_DONO}         = primeiro nome do dono
+  {LINHAS_DA_TABELA}  = linhas extras da tabela, criadas na entrevista a partir
+                        das áreas que o dono citou (uma linha por área, no mesmo
+                        formato das linhas-exemplo abaixo). Se o dono tem área de
+                        TRABALHO/negócio ou de SAÚDE, marcar 🔴 Em Espera.
+  Depois de preencher, salvar como ~/nexum/_nexum/roteamento.md e APAGAR este comentário.
+-->
+
+> **O que é este arquivo:** a regra que o {NOME_ASSISTENTE} usa pra saber, na hora, **onde guardar cada coisa** que {NOME_DONO} manda — e o que pode entrar **no automático** vs o que precisa de **autorização**.
+
+---
+
+## Como funciona (o fluxo)
+
+1. Coisa nova chega ({NOME_DONO} manda um assunto, um arquivo, uma dúvida).
+2. Se dá pra arquivar na hora, o {NOME_ASSISTENTE} arquiva no lugar certo (tabela abaixo). Se não — ou se veio bagunçado — **cai em `_entrada/`** e é roteado depois, numa "geral".
+3. Cada item é **classificado**:
+   - 🟢 **Automático** — o {NOME_ASSISTENTE} arquiva sozinho (coisa pessoal simples, estudo, anotação, dúvida).
+   - 🔴 **Em Espera** — conhecimento sério (trabalho/negócio, saúde); o {NOME_ASSISTENTE} **não** incorpora sozinho. Põe em `_entrada/em-espera/` e **chama {NOME_DONO} no Telegram** pra autorizar.
+
+---
+
+## A tabela — quando {NOME_DONO} fala de… → vai em…
+
+| Assunto | Destino | Entra como |
+|---|---|---|
+| **Linux**, servidor, rede, SSH, infra | `estudo/linux/` | 🟢 Automático |
+| **IA**, Claude, prompt, automação | `estudo/ia/` | 🟢 Automático |
+| Outro assunto de **estudo/aprendizado** | `estudo/<área>/` | 🟢 Automático |
+| **Saúde**, médico, terapia, emoções | `pessoal/saude/` | 🔴 Em Espera · 🔒 privado |
+| Outro **pessoal** (casa, família, finanças pessoais, viagem, hobby) | `pessoal/<assunto>/` | 🟢 Automático |
+| **O próprio {NOME_ASSISTENTE}** (o bot, minhas regras, como eu funciono) | `_nexum/` | 🟢 · 🔴 se muda meu comportamento/identidade |
+| **Pendência** (algo que ficou pra depois) | `PENDENCIAS.md` | 🟢 Automático |
+| **Dúvida** rápida / pergunta solta | responder na hora; guardar só se virar útil → `_entrada/` | 🟢 |
+| **Problema** (algo quebrou/erro) | resolver primeiro; registrar no assunto certo | 🟢 |
+| **Coisa nova** / não sei onde vai | `_entrada/` | 🟢 e classifico na próxima geral |
+{LINHAS_DA_TABELA}
+
+> Pastas que ainda **não existem** **nascem quando chegar o 1º assunto** — já com um `LEIA-ME.md`. Nada de pasta vazia à toa.
+
+---
+
+## Regras de ouro (valem sempre)
+
+1. **Conhecimento de trabalho/negócio e de saúde → nunca entra sem {NOME_DONO} autorizar.** Fica em `_entrada/em-espera/` e eu aviso no Telegram.
+2. **Nunca apagar nada.** Mover, não deletar. Na dúvida, `_entrada/em-espera/` e perguntar.
+3. **Não sobrescrever conhecimento existente** de forma destrutiva sem OK.
+4. **Privacidade:** saúde é **privado** — não citar em outros contextos nem usar em exemplos.
+5. **Não inventar.** Sem fonte, não vira conhecimento.
+6. Toda organização: **atualizar o `INDEX.md`** e o `LEIA-ME.md` da pasta mexida; no fim, **resumo no Telegram**.
+
+---
+
+## Em caso de dúvida na classificação
+
+Sério ou trivial? Trabalho ou pessoal? Na dúvida — **perguntar antes de processar**. Melhor `_entrada/em-espera/` + uma pergunta do que arquivar no lugar errado.

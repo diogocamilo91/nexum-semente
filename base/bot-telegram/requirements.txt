@@ -1,0 +1,10 @@
+# Bot do Telegram (kit NEXUM Semente) — dependencias do venv.
+# Pensado pra VPS pequena (2 nucleos / 2 GB RAM): so o essencial.
+
+python-telegram-bot>=22,<23     # a lib do bot (asyncio)
+faster-whisper>=1.1             # audio -> texto (Whisper em CPU; ja puxa o 'av'/PyAV)
+edge-tts>=7                     # texto -> voz (vozes neurais da Microsoft, de graca)
+
+# OPCIONAL — voz de reserva offline (so se quiser audio mesmo sem internet).
+# Pesa ~200 MB de dependencias (onnxruntime); em VPS de 2 GB, pode pular.
+#piper-tts>=1.4

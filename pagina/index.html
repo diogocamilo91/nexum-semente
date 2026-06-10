@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>nexum semente · seu assistente pessoal</title>
+<meta name="description" content="Guia para montar o seu assistente pessoal nexum — um presente do Diogo.">
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNDAgMTYwIiB3aWR0aD0iMjQwIiBoZWlnaHQ9IjE2MCI+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTIwLDgwKSBzY2FsZSgwLjkyKSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMkU2RTc4IiBzdHJva2Utd2lkdGg9IjIwIgogICAgIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CiAgICA8cGF0aCBkPSJNIDAsMCBDIC03OCwtNzQgLTgyLDcyIC00LDQgQyA3OCwtNzIgODIsNzQgNCwtMiIvPgogIDwvZz4KPC9zdmc+Cg==">
+<meta name="theme-color" content="#F7F6F3">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --petroleo:#2E6E78;
+  --claro:#6FBCC6;
+  --escuro:#1E2A2E;
+  --bg:#F7F6F3;
+  --card:#fff;
+  --linha:#e4e2db;
+  --grafite:#3A3A3A;
+  --mut:#8a8f8c;
+  --aviso-bg:#fdf6ec;
+  --aviso-borda:#e8c98a;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--grafite);font:16px/1.65 -apple-system,Segoe UI,Roboto,sans-serif;-webkit-text-size-adjust:100%}
+.wrap{max-width:720px;margin:0 auto;padding:16px 18px 70px}
+
+/* marca */
+.brand{display:flex;align-items:center;gap:10px;padding:10px 0 14px;border-bottom:1px solid var(--linha)}
+.brand svg{width:36px;height:24px;flex:none}
+.brand b{font:300 19px/1 Poppins,sans-serif;letter-spacing:2px;color:var(--petroleo)}
+.brand .tag{margin-left:auto;color:var(--mut);font-size:12.5px}
+
+/* hero */
+.hero{padding:30px 0 8px;text-align:center}
+.hero svg{width:96px;height:64px}
+.hero h1{font:300 30px/1.25 Poppins,sans-serif;letter-spacing:2px;color:var(--petroleo);margin:14px 0 6px}
+.hero p{color:var(--mut);font-size:15px;margin:0 auto;max-width:480px}
+
+h2{font:500 21px/1.3 Poppins,sans-serif;color:var(--petroleo);margin:44px 0 10px;display:flex;align-items:baseline;gap:10px}
+h2 .n{font:600 14px/1 Poppins,sans-serif;color:#fff;background:var(--petroleo);border-radius:50%;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;flex:none;transform:translateY(-2px)}
+h3{font:500 16px/1.3 Poppins,sans-serif;color:var(--grafite);margin:22px 0 6px}
+p{margin:10px 0}
+strong{color:var(--petroleo)}
+a{color:var(--petroleo)}
+ol,ul{padding-left:22px;margin:10px 0}
+li{margin:7px 0}
+
+.card{background:var(--card);border:1px solid var(--linha);border-radius:14px;padding:16px 18px;margin:14px 0}
+.card .item{display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--linha)}
+.card .item:last-child{border-bottom:none}
+.card .item .ico{flex:none}
+.card .item .preco{margin-left:auto;font:500 15px Poppins,sans-serif;color:var(--petroleo);white-space:nowrap}
+
+.aviso{background:var(--aviso-bg);border:1px solid var(--aviso-borda);border-radius:12px;padding:12px 15px;margin:14px 0;font-size:14.5px}
+.dica{border-left:3px solid var(--claro);background:#eef5f6;margin:14px 0;padding:10px 14px;border-radius:0 10px 10px 0;color:#2b4a4f;font-size:14.5px}
+
+/* caixa de comando com botão copiar */
+.cmd{position:relative;background:var(--escuro);border-radius:12px;margin:14px 0;overflow:hidden}
+.cmd pre{margin:0;padding:16px 52px 16px 16px;color:#dfe9ea;font:14px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-all}
+.cmd pre .c{color:#7fa3a9}
+.cmd button{position:absolute;top:8px;right:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#dfe9ea;border-radius:8px;padding:6px 10px;font-size:13px;cursor:pointer}
+.cmd button:active{background:rgba(255,255,255,.2)}
+.cmd.grande pre{font-size:13.5px;max-height:340px;overflow:auto}
+
+/* placeholder de print */
+.print{border:2px dashed var(--linha);border-radius:12px;padding:26px 14px;margin:14px 0;text-align:center;color:var(--mut);font-size:13.5px;background:#fbfaf7}
+
+.regras{background:var(--card);border:1px solid var(--linha);border-radius:14px;padding:6px 18px;margin:14px 0}
+.regras .r{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--linha);align-items:baseline}
+.regras .r:last-child{border-bottom:none}
+.regras .r .ico{flex:none}
+
+.so{display:inline-block;font:500 12.5px/1 Poppins,sans-serif;color:var(--petroleo);background:#e7f0f1;border-radius:20px;padding:6px 12px;margin:14px 0 2px}
+
+.foot{margin-top:60px;color:var(--mut);font-size:12.5px;text-align:center;border-top:1px solid var(--linha);padding-top:18px}
+.foot .eg{color:var(--claro);font-weight:500}
+
+@media(max-width:480px){
+  body{font-size:15px}
+  .hero h1{font-size:25px}
+  h2{font-size:19px}
+  .wrap{padding:12px 14px 60px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="brand">
+  <svg viewBox="0 0 240 160" fill="none" stroke="#2E6E78" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(120,80) scale(0.92)"><path d="M 0,0 C -78,-74 -82,72 -4,4 C 78,-72 82,74 4,-2"/></g></svg>
+  <b>nexum</b>
+  <span class="tag">semente 🌱</span>
+</div>
+
+<div class="hero">
+  <svg viewBox="0 0 240 160" fill="none" stroke="#2E6E78" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(120,80) scale(0.92)"><path d="M 0,0 C -78,-74 -82,72 -4,4 C 78,-72 82,74 4,-2"/></g></svg>
+  <h1>nexum</h1>
+  <p>Seu assistente pessoal, morando num servidor seu.<br>Um presente do Diogo — siga os passos abaixo com calma.</p>
+</div>
+
+<!-- ============ 1. O QUE É ISSO ============ -->
+<h2><span class="n">1</span>O que é isso</h2>
+<p>Você vai ganhar um <strong>assistente pessoal de verdade</strong>: uma inteligência artificial que mora num servidor <em>seu</em>, conversa com você pelo <strong>Telegram</strong> (por texto e por áudio), cuida do seu e-mail e da sua agenda, te avisa de notícia importante e trabalha sozinha enquanto você vive sua vida. Não é um chat que esquece tudo: ele te conhece, guarda o que aprende e melhora com o tempo. Esta página é o caminho até lá — é um <strong>presente do Diogo</strong>, e leva mais ou menos 1 hora pra montar.</p>
+
+<!-- PRINT: foto de uma conversa no Telegram com o assistente (mostrando texto + áudio) -->
+<div class="print">📷 print: como fica a conversa no Telegram</div>
+
+<!-- ============ 2. O QUE VOCÊ VAI PRECISAR ============ -->
+<h2><span class="n">2</span>O que você vai precisar</h2>
+<p>Sendo honesto com você, o presente é a montagem e o "cérebro" — mas a casa e a inteligência têm mensalidade. O custo é seu e fica assim:</p>
+<div class="card">
+  <div class="item"><span class="ico">🖥️</span><span><strong>Um servidor (VPS)</strong> — a "casa" do assistente, ligada 24h</span><span class="preco">~R$ 30–60/mês</span></div>
+  <div class="item"><span class="ico">🧠</span><span><strong>Assinatura Claude Pro</strong> — a inteligência que ele usa</span><span class="preco">~US$ 20/mês</span></div>
+  <div class="item"><span class="ico">⏱️</span><span><strong>1 hora de paciência</strong> — só copiar, colar e responder perguntas</span><span class="preco">grátis 🙂</span></div>
+</div>
+<div class="dica">💡 <strong>Sobre o plano Claude:</strong> comece no <strong>Pro</strong> (~US$ 20/mês), que dá conta do dia a dia. Se um dia você usar tanto que o limite apertar, dá pra subir de plano (Pro → Max) sem refazer nada. O Diogo mesmo começou pequeno e foi subindo conforme usava.</div>
+
+<!-- ============ 3. CONTRATAR A VPS ============ -->
+<h2><span class="n">3</span>Contratar a VPS (a casa do assistente)</h2>
+<p><strong>O que é uma VPS?</strong> Pense num computador que você <em>aluga</em> dentro de um prédio cheio de computadores (um datacenter). Ele fica <strong>ligado 24 horas por dia</strong>, conectado na internet, e é só seu. É aí que o assistente vai morar — por isso ele funciona mesmo com o seu celular desligado.</p>
+
+<h3>Onde contratar</h3>
+<p>Recomendamos <strong>Hostinger</strong> ou <strong>HostGator</strong>: são comuns no Brasil, têm painel em português e cobram em real.</p>
+<div class="card">
+  <div class="item"><span class="ico">🟣</span><span><strong>Hostinger</strong> — <a href="https://www.hostinger.com.br/vps" target="_blank" rel="noopener">hostinger.com.br/vps</a> (planos KVM)</span></div>
+  <div class="item"><span class="ico">🟠</span><span><strong>HostGator</strong> — <a href="https://www.hostgator.com.br/servidor-vps" target="_blank" rel="noopener">hostgator.com.br/servidor-vps</a></span></div>
+</div>
+
+<h3>O plano mínimo (confira antes de pagar)</h3>
+<ul>
+  <li><strong>Sistema:</strong> Ubuntu <strong>24.04</strong> (se aparecer "Ubuntu 24.04 LTS", é esse)</li>
+  <li><strong>Memória (RAM):</strong> pelo menos <strong>2 GB</strong></li>
+  <li><strong>Disco:</strong> pelo menos <strong>40 GB</strong></li>
+</ul>
+<p>Não precisa de mais que isso pra começar. Se o site oferecer "painel de controle" tipo cPanel/Plesk como extra pago, <strong>não precisa</strong> — escolha a opção simples, sem painel.</p>
+
+<h3>Passo a passo da contratação</h3>
+<ol>
+  <li>Entre no site, escolha o plano de <strong>VPS</strong> que tenha as specs acima (geralmente o segundo mais barato).</li>
+  <li>Crie sua conta e pague (cartão ou Pix).</li>
+  <li>Na configuração, escolha o sistema <strong>Ubuntu 24.04</strong>. Se pedir região/localização do servidor, escolha <strong>Brasil</strong> ou a mais próxima.</li>
+  <li>Vai pedir pra criar uma <strong>senha de root</strong> (root = o "dono" do servidor). Crie uma senha forte e <strong>anote</strong>.</li>
+  <li>Quando terminar de criar (alguns minutos), o painel mostra o <strong>endereço IP</strong> do seu servidor — quatro números separados por ponto, tipo <code>203.0.113.45</code>.</li>
+</ol>
+
+<div class="aviso">📝 <strong>Anote num lugar seguro</strong> (papel ou app de notas):<br>
+• o <strong>IP</strong> do servidor (ex.: 203.0.113.45)<br>
+• a <strong>senha de root</strong><br>
+Você vai usar os dois já no próximo passo.</div>
+
+<!-- PRINT: tela de escolha do plano VPS na Hostinger (destacando 2GB RAM / Ubuntu 24.04) -->
+<div class="print">📷 print: escolhendo o plano na Hostinger</div>
+<!-- PRINT: painel da VPS mostrando onde fica o IP e a senha root -->
+<div class="print">📷 print: onde achar o IP e a senha no painel</div>
+
+<!-- ============ 4. ENTRAR NO SERVIDOR ============ -->
+<h2><span class="n">4</span>Entrar no servidor</h2>
+<p>Agora você vai "entrar" no seu servidor a partir do seu computador. Isso se chama <strong>SSH</strong> — é como abrir uma janelinha de conversa direto com a máquina alugada. Tudo que você digitar nessa janelinha acontece <em>lá</em>, não no seu computador.</p>
+
+<span class="so">🪟 Windows</span>
+<p>Aperte a tecla <strong>Windows</strong>, digite <strong>PowerShell</strong> e abra o "Windows PowerShell" (a janela azul). Nela, digite:</p>
+<div class="cmd"><button onclick="copiar(this)">📋 copiar</button><pre>ssh root@SEU_IP</pre></div>
+
+<span class="so">🍎 Mac</span>
+<p>Abra o <strong>Terminal</strong> (aperte <strong>⌘ + espaço</strong>, digite "Terminal" e dê Enter). Nele, digite o mesmo comando:</p>
+<div class="cmd"><button onclick="copiar(this)">📋 copiar</button><pre>ssh root@SEU_IP</pre></div>
+
+<p>Entendendo o comando, pedaço por pedaço:</p>
+<ul>
+  <li><code>ssh</code> — o programa que conecta no servidor (já vem instalado no Windows e no Mac);</li>
+  <li><code>root</code> — o usuário "dono" do servidor, que você criou na contratação;</li>
+  <li><code>@SEU_IP</code> — <strong>troque SEU_IP pelo IP que você anotou</strong>. Exemplo: <code>ssh root@203.0.113.45</code>.</li>
+</ul>
+<p>Duas coisas vão acontecer — e as duas são normais:</p>
+<ol>
+  <li>Na <strong>primeira vez</strong>, ele pergunta algo como <em>"Are you sure you want to continue connecting?"</em>. Digite <code>yes</code> e dê Enter (é só ele "conhecendo" o servidor).</li>
+  <li>Ele pede a <strong>senha de root</strong>. Digite a senha que você anotou. <strong>A tela não mostra nada enquanto você digita</strong> — nem bolinhas. É assim mesmo, por segurança. Digite e dê Enter.</li>
+</ol>
+<p>Se a tela mudar e aparecer algo como <code>root@srv123:~#</code>, parabéns: <strong>você está dentro do seu servidor</strong>. 🎉</p>
+
+<!-- ============ 5. INSTALAR O CLAUDE CODE ============ -->
+<h2><span class="n">5</span>Instalar o Claude Code (o cérebro)</h2>
+<p><strong>Claude Code</strong> é o programa da Anthropic (a empresa do Claude) que deixa a inteligência artificial trabalhar dentro do servidor. É ele que vai montar e depois <em>ser</em> o seu assistente.</p>
+
+<h3>5.1 — Crie sua conta Claude (no celular ou PC)</h3>
+<ol>
+  <li>Acesse <a href="https://claude.ai" target="_blank" rel="noopener"><strong>claude.ai</strong></a> e crie uma conta (pode entrar com o Google).</li>
+  <li>Assine o plano <strong>Pro</strong> (~US$ 20/mês): no site, procure "Upgrade" ou "Planos" e escolha o Pro.</li>
+</ol>
+
+<h3>5.2 — Instale o Claude Code no servidor</h3>
+<p>De volta à janelinha do servidor (a do passo 4), cole este comando e dê Enter:</p>
+<!-- VALIDAR: comando oficial de instalação conforme docs.claude.com — verificado em 10/06/2026, https://claude.ai/install.sh responde OK; conferir se ainda é o comando vigente antes de publicar -->
+<div class="cmd"><button onclick="copiar(this)">📋 copiar</button><pre>curl -fsSL https://claude.ai/install.sh | bash</pre></div>
+<div class="dica">💡 Pra colar dentro da janelinha: no Windows PowerShell, clique com o <strong>botão direito do mouse</strong>; no Mac, <strong>⌘ + V</strong> normal.</div>
+<p>Esse comando baixa e instala o Claude Code (leva 1–2 minutos). Quando terminar, <strong>feche a janelinha, abra de novo e entre no servidor outra vez</strong> (o mesmo <code>ssh root@SEU_IP</code> do passo 4) — isso garante que o comando novo seja reconhecido.</p>
+
+<h3>5.3 — Conecte sua conta</h3>
+<p>Dentro do servidor, digite:</p>
+<div class="cmd"><button onclick="copiar(this)">📋 copiar</button><pre>claude</pre></div>
+<p>Na primeira vez ele faz umas perguntas de aparência (pode dar Enter em tudo) e pede pra <strong>entrar na sua conta</strong>: vai mostrar um <strong>link</strong>. Abra esse link no seu celular ou PC, entre com a conta que você criou no 5.1, autorize, copie o <strong>código</strong> que aparecer e cole de volta na janelinha do servidor. Pronto: o cérebro está ligado à sua conta.</p>
+
+<!-- ============ 6. CRIAR SEU BOT NO TELEGRAM ============ -->
+<h2><span class="n">6</span>Criar seu bot no Telegram</h2>
+<p>O assistente conversa com você por um <strong>bot do Telegram</strong> — um contato só seu. Criar é grátis e leva 2 minutos, direto no app do Telegram:</p>
+<ol>
+  <li>No Telegram, procure por <strong>@BotFather</strong> (o oficial tem selo azul de verificado) e abra a conversa.</li>
+  <li>Mande <code>/newbot</code>.</li>
+  <li>Ele pergunta o <strong>nome</strong> do bot — pode ser o nome que você quer dar ao seu assistente (ex.: "Meu Assistente").</li>
+  <li>Depois pergunta o <strong>username</strong>: tem que ser único e terminar em <code>bot</code> (ex.: <code>assistente_da_maria_bot</code>). Se disser que já existe, tente outro.</li>
+  <li>O BotFather responde com um <strong>token</strong> — uma linha comprida tipo <code>1234567890:AAH...</code>. <strong>Copie e guarde com a senha do servidor.</strong> Esse token é a "chave" do seu bot: não mande pra ninguém.</li>
+</ol>
+
+<h3>Agora crie o grupo do assistente</h3>
+<ol>
+  <li>No Telegram, crie um <strong>novo grupo</strong> (só com você mesmo) — ex.: "🤖 Meu Assistente".</li>
+  <li>Nas configurações do grupo, ative os <strong>Tópicos</strong> (em "Editar" → "Tópicos"). Cada tópico vira uma conversa separada com o assistente — um pra cada assunto.</li>
+  <li><strong>Adicione o seu bot ao grupo</strong> (Adicionar membro → busque pelo username que você criou) e promova ele a <strong>administrador</strong> do grupo.</li>
+</ol>
+
+<!-- PRINT: conversa com o BotFather mostrando o /newbot e o token (token borrado) -->
+<div class="print">📷 print: criando o bot no BotFather</div>
+<!-- PRINT: tela de ativar Tópicos no grupo -->
+<div class="print">📷 print: ativando os Tópicos no grupo</div>
+
+<!-- ============ 7. O QUE VAI ACONTECER AGORA ============ -->
+<h2><span class="n">7</span>O que vai acontecer agora</h2>
+<p>Transparência total, porque é você quem manda aqui. No próximo passo você vai <strong>colar um texto no Claude</strong> (dentro do servidor). Esse texto faz o seguinte:</p>
+<ol>
+  <li>O Claude <strong>baixa o kit</strong> do assistente (o "nexum semente") pro seu servidor.</li>
+  <li>Ele <strong>monta a base</strong>: o bot do Telegram, o backup automático e a segurança do servidor.</li>
+  <li>E aí ele <strong>entrevista você</strong>: pra cada coisa que ele sabe fazer (ler seu e-mail, acompanhar sua agenda, te avisar de notícia, resumir vídeos...), ele <strong>explica o que é, dá um exemplo e pergunta se você quer</strong>. Você liga só o que quiser — e pode mudar de ideia depois, é só conversar.</li>
+</ol>
+<p>E o seu assistente <strong>nasce com regras que ele não quebra</strong>:</p>
+<div class="regras">
+  <div class="r"><span class="ico">🗑️</span><span><strong>Nunca apaga nada.</strong> E-mail, arquivo, anotação: no máximo ele <em>move</em> de lugar — apagar de verdade, nunca.</span></div>
+  <div class="r"><span class="ico">✋</span><span><strong>Nunca envia e-mail ou mensagem em seu nome sem o seu OK.</strong> Ele escreve o rascunho, te mostra, e só envia se você confirmar. O mesmo vale pra mexer na sua agenda.</span></div>
+  <div class="r"><span class="ico">🔒</span><span><strong>O que é seu fica no seu servidor.</strong> Suas conversas, e-mails e arquivos moram na sua VPS — não vão parar em lugar nenhum.</span></div>
+</div>
+
+<!-- ============ 8. O PROMPT-SEMENTE ============ -->
+<!-- PREENCHER ANTES DE PUBLICAR: trocar {URL_REPO_SEMENTE} (logo abaixo, no git clone)
+     pela URL https PÚBLICA deste repositório (ex.: https://github.com/usuario/nexum-semente.git).
+     Mesma troca em prompt-semente.txt. Se publicar com o placeholder, o PRIMEIRO comando
+     que o amigo cola falha. Checklist completo: pagina/LEIA-ME.md -->
+<h2><span class="n">8</span>O prompt-semente 🌱</h2>
+<p>Hora de plantar. Na janelinha do servidor, digite <code>claude</code> (se já não estiver com ele aberto), aí <strong>copie o texto inteiro abaixo, cole e dê Enter</strong>. Tenha em mãos o <strong>token do bot</strong> (passo 6) — ele vai pedir.</p>
+
+<div class="cmd grande"><button onclick="copiar(this)">📋 copiar tudo</button><pre>Você é o instalador do meu assistente pessoal (projeto "nexum semente").
+
+Faça nesta ordem:
+1. Clone o repositório do kit:
+   git clone {URL_REPO_SEMENTE} ~/nexum-semente
+2. Leia o arquivo ~/nexum-semente/LEIA-ME.md e siga as instruções
+   dele à risca — ele é o seu roteiro de instalação.
+3. Instale a base (bot do Telegram, backup, segurança) e depois me
+   ENTREVISTE módulo a módulo: pra cada módulo, explique o que é,
+   dê um exemplo, diga sua recomendação e a regra de segurança,
+   e só instale o que eu aceitar.
+
+Regras inegociáveis do assistente que você vai montar (estão no kit,
+mas reforço): nunca apagar nada (mover, nunca deletar); nunca enviar
+e-mail/mensagem externa nem editar agenda sem meu OK explícito; meus
+dados ficam neste servidor.
+
+Fale comigo em português, simples, sem jargão — sou iniciante.
+Comece se apresentando e me pedindo o token do bot do Telegram.</pre></div>
+
+<p>Daqui pra frente é só <strong>conversar</strong>: o Claude explica cada passo, pergunta o que precisa e monta tudo. Quando ele terminar, seu assistente te dá oi no Telegram. 👋</p>
+
+<!-- ============ 9. DEU ERRADO? ============ -->
+<h2><span class="n">9</span>Deu errado?</h2>
+<p>Calma — quase tudo se resolve sem sair do lugar:</p>
+<ol>
+  <li><strong>Apareceu uma mensagem de erro?</strong> Copie a mensagem inteira e <strong>cole no próprio Claude</strong>, pedindo: <em>"deu este erro, resolve pra mim"</em>. Ele é muito bom nisso — é o caminho certo pra 9 em cada 10 problemas.</li>
+  <li><strong>Travou de vez</strong> (não conecta, não instala, nada funciona)? <strong>Chama o Diogo.</strong> 🙂 Mande print do erro que ele resolve.</li>
+</ol>
+
+<div class="foot">
+  <span class="eg">∞n</span><br>
+  nexum semente · um presente do Diogo
+</div>
+
+</div>
+<script>
+function copiar(btn){
+  var txt = btn.parentNode.querySelector('pre').innerText;
+  function ok(){ btn.textContent='✅ copiado'; setTimeout(function(){btn.textContent='📋 copiar';},2000); }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(ok).catch(function(){fallback();});
+  } else { fallback(); }
+  function fallback(){
+    var ta=document.createElement('textarea');
+    ta.value=txt; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); ok(); }catch(e){}
+    document.body.removeChild(ta);
+  }
+}
+</script>
+</body>
+</html>
