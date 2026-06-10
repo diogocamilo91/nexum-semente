@@ -102,49 +102,85 @@ li{margin:7px 0}
   <p>Seu assistente pessoal, morando num servidor seu.<br>Um presente do Diogo — siga os passos abaixo com calma.</p>
 </div>
 
-<!-- ============ 1. O QUE É ISSO ============ -->
-<h2><span class="n">1</span>O que é isso</h2>
-<p>Você vai ganhar um <strong>assistente pessoal de verdade</strong>: uma inteligência artificial que mora num servidor <em>seu</em>, conversa com você pelo <strong>Telegram</strong> (por texto e por áudio), cuida do seu e-mail e da sua agenda, te avisa de notícia importante e trabalha sozinha enquanto você vive sua vida. Não é um chat que esquece tudo: ele te conhece, guarda o que aprende e melhora com o tempo. Esta página é o caminho até lá — é um <strong>presente do Diogo</strong>, e leva mais ou menos 1 hora pra montar.</p>
+<!-- ============ 1. POR QUE VOCÊ VAI QUERER ISSO ============ -->
+<h2><span class="n">1</span>Por que você vai querer isso</h2>
+<p>Antes de qualquer passo, deixa eu te contar <strong>o que você ganha no final</strong>. Imagine que você tem um assistente pessoal — uma pessoa de confiança, disponível o dia inteiro — só que dentro do seu celular. O dia a dia fica assim:</p>
+<div class="card">
+  <div class="item"><span class="ico">🎤</span><span>Você manda um <strong>áudio</strong>: <em>"marca dentista quinta de manhã e me lembra na quarta"</em>. Ele entende, anota na sua agenda e te lembra na quarta. Se você preferir, ele <strong>responde de voz</strong> também.</span></div>
+  <div class="item"><span class="ico">📧</span><span>Ele <strong>olha seus e-mails</strong> e te avisa só do que importa. A propaganda? Ele arquiva sozinho, sem te incomodar.</span></div>
+  <div class="item"><span class="ico">🌙</span><span>Todo dia às 21h chega um <strong>resumo do seu dia</strong> e da sua agenda de amanhã. Você vai dormir sabendo o que vem.</span></div>
+  <div class="item"><span class="ico">🔎</span><span>Pergunta <strong>qualquer coisa</strong> — receita, remédio, notícia, "quanto tá o dólar" — e ele pesquisa na internet e responde na hora.</span></div>
+  <div class="item"><span class="ico">🧠</span><span>E o melhor: <strong>ele não esquece</strong>. Ele te conhece, guarda o que aprende sobre você e fica melhor a cada semana.</span></div>
+</div>
+<p>Agora, a parte mais importante: <strong>ele não é um aplicativo de empresa.</strong> Não tem empresa olhando suas conversas, não tem anúncio, não tem "termos de uso" mudando. Ele é <strong>seu</strong>: mora num servidor alugado <em>no seu nome</em>, e ninguém além de você tem acesso. É como ter um funcionário de confiança que mora num escritório só seu.</p>
+<p>Esta página é o caminho até lá. É um <strong>presente do Diogo</strong>, leva mais ou menos <strong>1 hora</strong>, e você não precisa entender nada de computador — é copiar, colar e responder perguntas. Cada passo aqui explica o que fazer <em>e</em> o que vai aparecer na tela, pra você nunca ficar perdido(a).</p>
 
 <!-- PRINT: foto de uma conversa no Telegram com o assistente (mostrando texto + áudio) -->
 <div class="print">📷 print: como fica a conversa no Telegram</div>
 
-<!-- ============ 2. O QUE VOCÊ VAI PRECISAR ============ -->
-<h2><span class="n">2</span>O que você vai precisar</h2>
-<p>Sendo honesto com você, o presente é a montagem e o "cérebro" — mas a casa e a inteligência têm mensalidade. O custo é seu e fica assim:</p>
+<!-- ============ 2. AS PEÇAS ============ -->
+<h2><span class="n">2</span>As peças (entenda o que você vai montar)</h2>
+<p>O assistente é feito de poucas peças, e cada uma tem um papel bem simples. Vale 2 minutos de leitura — depois disso, os passos fazem muito mais sentido:</p>
+<div class="card">
+  <div class="item"><span class="ico">🖥️</span><span><strong>A VPS</strong> — um computadorzinho que você <strong>aluga</strong> e que fica ligado 24 horas por dia, num prédio cheio de computadores (chamam de "datacenter"). É a <strong>casa</strong> do assistente. É por isso que ele funciona mesmo com o seu celular desligado: ele não mora no celular, mora lá. Custa uns R$ 30–60 por mês.</span></div>
+  <div class="item"><span class="ico">🧠</span><span><strong>O Claude</strong> — o <strong>cérebro</strong>. É a inteligência artificial que pensa, escreve e entende você. Funciona por assinatura (~US$ 20/mês no plano Pro), como uma Netflix.</span></div>
+  <div class="item"><span class="ico">💬</span><span><strong>O Telegram</strong> — a <strong>boca e o ouvido</strong>. É o aplicativo onde você conversa com o assistente, muito parecido com o WhatsApp, e é grátis. Por que Telegram e não WhatsApp? Porque o Telegram <strong>permite criar "robôs de conversa" oficialmente</strong> — é um recurso do aplicativo, feito pra isso. No WhatsApp isso não existe de forma oficial.</span></div>
+  <div class="item"><span class="ico">🤖</span><span><strong>O bot</strong> — o "<strong>contato</strong>" do seu assistente dentro do Telegram. Você cria ele em 2 minutos (a gente ensina) e ele aparece na sua lista como um contato qualquer. É por ele que vocês conversam.</span></div>
+  <div class="item"><span class="ico">📎</span><span><strong>Google (e-mail, agenda, arquivos) e WhatsApp</strong> — <strong>opcionais</strong>. Lá no final, o próprio assistente pergunta, <strong>um por um</strong>, se você quer conectar cada coisa — e explica antes o que cada conexão faz. Você decide. Nada é ligado sem você dizer sim.</span></div>
+</div>
+<p>Resumindo o desenho (só pra olhar, não precisa copiar):</p>
+<div class="card"><pre style="margin:0;font:14px/1.8 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#3A3A3A;white-space:pre-wrap">Você (Telegram no celular)
+        ⇅  conversa
+O bot (o "contato" do assistente)
+        ⇅
+A VPS (a casa, ligada 24h)  +  O Claude (o cérebro)</pre></div>
+<p>Sua parte na montagem é alugar a casa (passo 4), entrar nela (passo 5), instalar o cérebro (passo 6) e criar o contato no Telegram (passo 7). Aí o próprio Claude monta o resto conversando com você.</p>
+
+<!-- ============ 3. O QUE VOCÊ VAI PRECISAR ============ -->
+<h2><span class="n">3</span>O que você vai precisar</h2>
+<p>Sendo honesto com você: o presente é a montagem e a "receita" — mas a casa e a inteligência têm mensalidade, e o custo é seu. Fica assim:</p>
 <div class="card">
   <div class="item"><span class="ico">🖥️</span><span><strong>Um servidor (VPS)</strong> — a "casa" do assistente, ligada 24h</span><span class="preco">~R$ 30–60/mês</span></div>
   <div class="item"><span class="ico">🧠</span><span><strong>Assinatura Claude Pro</strong> — a inteligência que ele usa</span><span class="preco">~US$ 20/mês</span></div>
+  <div class="item"><span class="ico">💳</span><span><strong>Um cartão de crédito</strong> — pra pagar as duas assinaturas acima</span><span class="preco">—</span></div>
   <div class="item"><span class="ico">⏱️</span><span><strong>1 hora de paciência</strong> — só copiar, colar e responder perguntas</span><span class="preco">grátis 🙂</span></div>
 </div>
 <div class="dica">💡 <strong>Sobre o plano Claude:</strong> comece no <strong>Pro</strong> (~US$ 20/mês), que dá conta do dia a dia. Se um dia você usar tanto que o limite apertar, dá pra subir de plano (Pro → Max) sem refazer nada. O Diogo mesmo começou pequeno e foi subindo conforme usava.</div>
+<div class="dica">💡 Também ajuda ter por perto: um <strong>computador</strong> (Windows ou Mac — só pra montagem; depois de pronto, é tudo pelo celular), <strong>papel e caneta</strong> (ou o app de notas do celular) pra anotar duas ou três coisas pelo caminho, e o <strong>Telegram instalado</strong> no celular (se não tiver, baixe grátis na loja de aplicativos, igual baixou o WhatsApp).</div>
 
-<!-- ============ 3. CONTRATAR A VPS ============ -->
-<h2><span class="n">3</span>Contratar a VPS (a casa do assistente)</h2>
-<p><strong>O que é uma VPS?</strong> Pense num computador que você <em>aluga</em> dentro de um prédio cheio de computadores (um datacenter). Ele fica <strong>ligado 24 horas por dia</strong>, conectado na internet, e é só seu. É aí que o assistente vai morar — por isso ele funciona mesmo com o seu celular desligado.</p>
+<!-- ============ 4. CONTRATAR A VPS ============ -->
+<h2><span class="n">4</span>Contratar a VPS (a casa do assistente)</h2>
+<p>Lembrando: a VPS é o computadorzinho alugado que fica ligado 24h. Contratar uma é <strong>como comprar uma passagem aérea pela internet</strong>: você entra no site, escolhe a opção, cria uma conta, paga com cartão e recebe um e-mail com os dados. Nada além disso. Vamos por partes.</p>
 
-<h3>Onde contratar</h3>
-<p>Recomendamos <strong>Hostinger</strong> ou <strong>HostGator</strong>: são comuns no Brasil, têm painel em português e cobram em real.</p>
+<h3>4.1 — Onde contratar</h3>
+<p>Recomendamos <strong>Hostinger</strong> ou <strong>HostGator</strong>: são empresas conhecidas no Brasil, têm o site em português e cobram em real. Escolha uma das duas (tanto faz qual):</p>
 <div class="card">
   <div class="item"><span class="ico">🟣</span><span><strong>Hostinger</strong> — <a href="https://www.hostinger.com.br/vps" target="_blank" rel="noopener">hostinger.com.br/vps</a> (planos KVM)</span></div>
   <div class="item"><span class="ico">🟠</span><span><strong>HostGator</strong> — <a href="https://www.hostgator.com.br/servidor-vps" target="_blank" rel="noopener">hostgator.com.br/servidor-vps</a></span></div>
 </div>
 
-<h3>O plano mínimo (confira antes de pagar)</h3>
+<h3>4.2 — Qual plano escolher (confira antes de pagar)</h3>
+<p>Os sites mostram vários planos com nomes e números. Você só precisa conferir <strong>três coisas</strong> na descrição do plano:</p>
 <ul>
-  <li><strong>Sistema:</strong> Ubuntu <strong>24.04</strong> (se aparecer "Ubuntu 24.04 LTS", é esse)</li>
-  <li><strong>Memória (RAM):</strong> pelo menos <strong>2 GB</strong></li>
-  <li><strong>Disco:</strong> pelo menos <strong>40 GB</strong></li>
+  <li><strong>Sistema:</strong> Ubuntu <strong>24.04</strong> (se aparecer "Ubuntu 24.04 LTS", é esse mesmo — Ubuntu é o "Windows" dos servidores, e 24.04 é a versão);</li>
+  <li><strong>Memória (RAM):</strong> pelo menos <strong>2 GB</strong>;</li>
+  <li><strong>Disco:</strong> pelo menos <strong>40 GB</strong>.</li>
 </ul>
-<p>Não precisa de mais que isso pra começar. Se o site oferecer "painel de controle" tipo cPanel/Plesk como extra pago, <strong>não precisa</strong> — escolha a opção simples, sem painel.</p>
+<p>Geralmente é o <strong>segundo plano mais barato</strong>. Não precisa de mais que isso pra começar. Se o site oferecer "painel de controle" tipo cPanel ou Plesk como extra pago, <strong>não precisa</strong> — escolha a opção simples, sem painel. E se oferecer pagar 12 ou 24 meses de uma vez com desconto, fique à vontade: é igual escolher tarifa de passagem, só muda o preço.</p>
 
-<h3>Passo a passo da contratação</h3>
+<h3>4.3 — Passo a passo da contratação</h3>
 <ol>
-  <li>Entre no site, escolha o plano de <strong>VPS</strong> que tenha as specs acima (geralmente o segundo mais barato).</li>
-  <li>Crie sua conta e pague (cartão ou Pix).</li>
-  <li>Na configuração, escolha o sistema <strong>Ubuntu 24.04</strong>. Se pedir região/localização do servidor, escolha <strong>Brasil</strong> ou a mais próxima.</li>
-  <li>Vai pedir pra criar uma <strong>senha de root</strong> (root = o "dono" do servidor). Crie uma senha forte e <strong>anote</strong>.</li>
-  <li>Quando terminar de criar (alguns minutos), o painel mostra o <strong>endereço IP</strong> do seu servidor — quatro números separados por ponto, tipo <code>203.0.113.45</code>.</li>
+  <li>Entre no site e clique no plano de <strong>VPS</strong> que tenha os números acima.</li>
+  <li><strong>Crie sua conta</strong> no site: e-mail e uma senha (essa é a senha <em>do site da empresa</em>, pra você entrar no painel deles depois — anote).</li>
+  <li><strong>Pague</strong> com cartão ou Pix, como em qualquer compra online.</li>
+  <li>Depois do pagamento, o site pede pra <strong>configurar o servidor</strong>. Aqui só duas escolhas importam:
+    <ul>
+      <li><strong>Sistema operacional:</strong> escolha <strong>Ubuntu 24.04</strong>;</li>
+      <li><strong>Região/localização:</strong> escolha <strong>Brasil</strong> (ou a mais próxima que aparecer).</li>
+    </ul>
+  </li>
+  <li>Vai pedir pra criar uma <strong>senha de root</strong>. "Root" é o usuário <em>dono</em> do servidor — quem manda lá dentro. Crie uma senha forte e <strong>anote com cuidado, letra por letra</strong> (você vai digitar ela sem ver na tela daqui a pouco, então capricho aqui evita dor de cabeça).</li>
+  <li>Pronto. Em alguns minutos o servidor fica pronto, e o painel do site mostra o <strong>endereço IP</strong> dele: quatro números separados por ponto, tipo <code>203.0.113.45</code>. O IP é o <strong>endereço do seu computadorzinho na internet — tipo um CEP</strong>. É com ele que você vai "bater na porta" do servidor. Algumas empresas também mandam o IP por <strong>e-mail</strong> ("seu VPS está pronto") — vale conferir a caixa de entrada.</li>
 </ol>
 
 <div class="aviso">📝 <strong>Anote num lugar seguro</strong> (papel ou app de notas):<br>
@@ -157,69 +193,89 @@ Você vai usar os dois já no próximo passo.</div>
 <!-- PRINT: painel da VPS mostrando onde fica o IP e a senha root -->
 <div class="print">📷 print: onde achar o IP e a senha no painel</div>
 
-<!-- ============ 4. ENTRAR NO SERVIDOR ============ -->
-<h2><span class="n">4</span>Entrar no servidor</h2>
-<p>Agora você vai "entrar" no seu servidor a partir do seu computador. Isso se chama <strong>SSH</strong> — é como abrir uma janelinha de conversa direto com a máquina alugada. Tudo que você digitar nessa janelinha acontece <em>lá</em>, não no seu computador.</p>
+<!-- ============ 5. ENTRAR NO SERVIDOR ============ -->
+<h2><span class="n">5</span>Entrar no servidor</h2>
+<p>Agora você vai "entrar" no seu servidor a partir do seu computador. Isso se chama <strong>SSH</strong> — pense numa <strong>ligação telefônica entre o seu computador e o servidor</strong>: tudo que você digitar de um lado acontece do outro. A conversa rola numa <strong>janelinha preta de texto, chamada terminal</strong> — é a forma de conversar com o servidor por escrito. Parece coisa de filme, mas você só vai copiar e colar o que está aqui na página.</p>
 
 <span class="so">🪟 Windows</span>
-<p>Aperte a tecla <strong>Windows</strong>, digite <strong>PowerShell</strong> e abra o "Windows PowerShell" (a janela azul). Nela, digite:</p>
-<div class="cmd"><button onclick="copiar(this)">📋 copiar</button><pre>ssh root@SEU_IP</pre></div>
+<ol>
+  <li>Aperte a tecla <strong>Windows</strong> (a da bandeirinha, perto da barra de espaço).</li>
+  <li>Digite <strong>PowerShell</strong> (vai aparecendo o resultado enquanto digita).</li>
+  <li>Clique em <strong>"Windows PowerShell"</strong> — abre a janelinha (azul ou preta) com um cursor piscando. É o terminal.</li>
+</ol>
 
 <span class="so">🍎 Mac</span>
-<p>Abra o <strong>Terminal</strong> (aperte <strong>⌘ + espaço</strong>, digite "Terminal" e dê Enter). Nele, digite o mesmo comando:</p>
+<ol>
+  <li>Aperte <strong>⌘ (command) + barra de espaço</strong> ao mesmo tempo — abre uma busca no meio da tela.</li>
+  <li>Digite <strong>Terminal</strong> e dê <strong>Enter</strong> — abre a janelinha com um cursor piscando.</li>
+</ol>
+
+<span class="so">📱 Só tem celular?</span>
+<p>Dá pra fazer tudo pelo celular também: baixe o app grátis <strong>Termius</strong> na loja de aplicativos, toque em "New Host", preencha o IP do servidor, usuário <code>root</code> e a senha, e conecte — cai na mesma janelinha. Mas se você tiver um computador por perto, <strong>use o computador</strong>: copiar e colar é bem mais confortável.</p>
+
+<h3>5.1 — O comando de entrar</h3>
+<p>Com a janelinha aberta (Windows ou Mac, é o mesmo comando), você vai usar a caixa abaixo. Toda caixa escura desta página tem um botão <strong>📋 copiar</strong> no canto — clique (ou toque) nele, e o texto já vai pro seu "copiar e colar". <strong>Você não precisa entender o comando</strong> — mas se quiser saber: <code>ssh</code> é o programa que faz a "ligação" (já vem instalado no Windows e no Mac), <code>root</code> é o usuário dono do servidor, e <code>SEU_IP</code> é o endereço dele.</p>
 <div class="cmd"><button onclick="copiar(this)">📋 copiar</button><pre>ssh root@SEU_IP</pre></div>
+<p>Antes de dar Enter, <strong>troque SEU_IP pelo IP que você anotou</strong> no passo 4. Exemplo: se o seu IP é 203.0.113.45, a linha fica <code>ssh root@203.0.113.45</code>.</p>
+<div class="dica">💡 Pra <strong>colar</strong> dentro da janelinha: no Windows PowerShell, clique com o <strong>botão direito do mouse</strong> (isso mesmo, o botão direito cola); no Mac, <strong>⌘ + V</strong> normal.</div>
 
-<p>Entendendo o comando, pedaço por pedaço:</p>
-<ul>
-  <li><code>ssh</code> — o programa que conecta no servidor (já vem instalado no Windows e no Mac);</li>
-  <li><code>root</code> — o usuário "dono" do servidor, que você criou na contratação;</li>
-  <li><code>@SEU_IP</code> — <strong>troque SEU_IP pelo IP que você anotou</strong>. Exemplo: <code>ssh root@203.0.113.45</code>.</li>
-</ul>
-<p>Duas coisas vão acontecer — e as duas são normais:</p>
+<h3>5.2 — O que vai aparecer na tela</h3>
+<p>Depois do Enter, duas coisas acontecem — e as duas são normais:</p>
 <ol>
-  <li>Na <strong>primeira vez</strong>, ele pergunta algo como <em>"Are you sure you want to continue connecting?"</em>. Digite <code>yes</code> e dê Enter (é só ele "conhecendo" o servidor).</li>
-  <li>Ele pede a <strong>senha de root</strong>. Digite a senha que você anotou. <strong>A tela não mostra nada enquanto você digita</strong> — nem bolinhas. É assim mesmo, por segurança. Digite e dê Enter.</li>
+  <li>Na <strong>primeira vez</strong>, aparece um texto em inglês terminando em <em>"Are you sure you want to continue connecting?"</em> ("tem certeza que quer conectar?"). É só o seu computador conhecendo o servidor pela primeira vez. Digite <code>yes</code> (com as três letras) e dê Enter.</li>
+  <li>Aí ele pede a senha: aparece <code>password:</code>. Digite a <strong>senha de root</strong> que você anotou. <strong>Atenção: a tela não mostra NADA enquanto você digita</strong> — nem bolinhas, nem asteriscos. Parece que o teclado parou de funcionar, mas não parou: é assim mesmo, por segurança. Digite a senha inteira com calma e dê Enter.</li>
 </ol>
-<p>Se a tela mudar e aparecer algo como <code>root@srv123:~#</code>, parabéns: <strong>você está dentro do seu servidor</strong>. 🎉</p>
+<p><strong>Como saber que deu certo:</strong> a tela muda, aparece um texto de boas-vindas e a linha termina em algo como <code>root@srv123:~#</code> com o cursor piscando. Isso significa: <strong>você está dentro do seu servidor</strong>, e tudo que digitar agora acontece lá. 🎉</p>
+<p><strong>Se aparecer outra coisa:</strong> <em>"Permission denied"</em> quer dizer senha errada — roda o comando de novo e digite a senha com mais calma (lembrando que ela não aparece). <em>"Connection timed out"</em> ou demorou e nada aconteceu — confira se digitou o IP certinho e se o servidor já terminou de ser criado no painel (às vezes leva uns minutos).</p>
 
-<!-- ============ 5. INSTALAR O CLAUDE CODE ============ -->
-<h2><span class="n">5</span>Instalar o Claude Code (o cérebro)</h2>
-<p><strong>Claude Code</strong> é o programa da Anthropic (a empresa do Claude) que deixa a inteligência artificial trabalhar dentro do servidor. É ele que vai montar e depois <em>ser</em> o seu assistente.</p>
+<!-- ============ 6. INSTALAR O CLAUDE CODE ============ -->
+<h2><span class="n">6</span>Instalar o Claude Code (o cérebro)</h2>
+<p><strong>Claude Code</strong> é o programa da Anthropic (a empresa que faz o Claude) que deixa a inteligência artificial trabalhar <em>dentro</em> do seu servidor. É ele que vai montar e depois <em>ser</em> o seu assistente. São três etapas: criar a conta, instalar o programa e conectar os dois.</p>
 
-<h3>5.1 — Crie sua conta Claude (no celular ou PC)</h3>
+<h3>6.1 — Crie sua conta Claude (pode ser pelo celular)</h3>
 <ol>
-  <li>Acesse <a href="https://claude.ai" target="_blank" rel="noopener"><strong>claude.ai</strong></a> e crie uma conta (pode entrar com o Google).</li>
-  <li>Assine o plano <strong>Pro</strong> (~US$ 20/mês): no site, procure "Upgrade" ou "Planos" e escolha o Pro.</li>
+  <li>Acesse <a href="https://claude.ai" target="_blank" rel="noopener"><strong>claude.ai</strong></a> no navegador do celular ou do computador.</li>
+  <li>Crie uma conta — o caminho mais fácil é <strong>"Continuar com Google"</strong>, usando seu e-mail do Gmail. Sem senha nova pra decorar.</li>
+  <li>Assine o plano <strong>Pro</strong> (~US$ 20/mês): dentro do site, procure o botão <strong>"Upgrade"</strong> ou <strong>"Planos"</strong>, escolha o <strong>Pro</strong> e pague com cartão. A cobrança vem em dólar, convertida na fatura, como qualquer compra internacional.</li>
 </ol>
 
-<h3>5.2 — Instale o Claude Code no servidor</h3>
-<p>De volta à janelinha do servidor (a do passo 4), cole este comando e dê Enter:</p>
+<h3>6.2 — Instale o Claude Code no servidor</h3>
+<p>De volta à janelinha do servidor (a do passo 5 — aquela do <code>root@...</code>). A caixa abaixo <strong>baixa e instala o Claude Code</strong> no seu servidor. Você não precisa entender o comando — é só copiar (📋) e colar lá, e dar Enter. Mas se quiser saber: <code>curl</code> é o programa que baixa coisas da internet, e ele baixa o instalador oficial direto do site do Claude e roda.</p>
 <!-- VALIDAR: comando oficial de instalação conforme docs.claude.com — verificado em 10/06/2026, https://claude.ai/install.sh responde OK; conferir se ainda é o comando vigente antes de publicar -->
 <div class="cmd"><button onclick="copiar(this)">📋 copiar</button><pre>curl -fsSL https://claude.ai/install.sh | bash</pre></div>
-<div class="dica">💡 Pra colar dentro da janelinha: no Windows PowerShell, clique com o <strong>botão direito do mouse</strong>; no Mac, <strong>⌘ + V</strong> normal.</div>
-<p>Esse comando baixa e instala o Claude Code (leva 1–2 minutos). Quando terminar, <strong>feche a janelinha, abra de novo e entre no servidor outra vez</strong> (o mesmo <code>ssh root@SEU_IP</code> do passo 4) — isso garante que o comando novo seja reconhecido.</p>
+<p><strong>O que vai aparecer:</strong> várias linhas de texto passando na tela durante 1–2 minutos — é a instalação trabalhando. Deu certo quando o texto para de passar e o cursor volta a piscar numa linha com <code>root@...</code> (algumas instalações terminam com uma mensagem de sucesso, tipo "installed").</p>
+<p>Quando terminar, <strong>feche a janelinha, abra de novo e entre no servidor outra vez</strong> (o mesmo <code>ssh root@SEU_IP</code> do passo 5, com a mesma senha). Por que isso? A janelinha só "aprende" os programas novos quando abre de novo — é como reiniciar o celular depois de uma atualização.</p>
 
-<h3>5.3 — Conecte sua conta</h3>
-<p>Dentro do servidor, digite:</p>
+<h3>6.3 — Conecte sua conta (o tal do "login")</h3>
+<p>Agora vamos apresentar o cérebro à sua assinatura. Dentro do servidor, digite (ou copie) e dê Enter:</p>
 <div class="cmd"><button onclick="copiar(this)">📋 copiar</button><pre>claude</pre></div>
-<p>Na primeira vez ele faz umas perguntas de aparência (pode dar Enter em tudo) e pede pra <strong>entrar na sua conta</strong>: vai mostrar um <strong>link</strong>. Abra esse link no seu celular ou PC, entre com a conta que você criou no 5.1, autorize, copie o <strong>código</strong> que aparecer e cole de volta na janelinha do servidor. Pronto: o cérebro está ligado à sua conta.</p>
-
-<!-- ============ 6. CRIAR SEU BOT NO TELEGRAM ============ -->
-<h2><span class="n">6</span>Criar seu bot no Telegram</h2>
-<p>O assistente conversa com você por um <strong>bot do Telegram</strong> — um contato só seu. Criar é grátis e leva 2 minutos, direto no app do Telegram:</p>
+<p>O que acontece, na ordem:</p>
 <ol>
-  <li>No Telegram, procure por <strong>@BotFather</strong> (o oficial tem selo azul de verificado) e abra a conversa.</li>
-  <li>Mande <code>/newbot</code>.</li>
-  <li>Ele pergunta o <strong>nome</strong> do bot — pode ser o nome que você quer dar ao seu assistente (ex.: "Meu Assistente").</li>
-  <li>Depois pergunta o <strong>username</strong>: tem que ser único e terminar em <code>bot</code> (ex.: <code>assistente_da_maria_bot</code>). Se disser que já existe, tente outro.</li>
-  <li>O BotFather responde com um <strong>token</strong> — uma linha comprida tipo <code>1234567890:AAH...</code>. <strong>Copie e guarde com a senha do servidor.</strong> Esse token é a "chave" do seu bot: não mande pra ninguém.</li>
+  <li>Na primeira vez ele faz umas <strong>perguntas de aparência</strong> (cor do tema, etc.) — pode ir dando <strong>Enter</strong> em tudo, tanto faz.</li>
+  <li>Aí ele pede pra <strong>entrar na sua conta</strong> e mostra um <strong>link comprido</strong> (começa com <code>https://...</code>).</li>
+  <li><strong>Abra esse link num navegador.</strong> O jeito mais fácil: selecione o link na janelinha, copie e cole no navegador <em>do mesmo computador</em> (Chrome, Edge, Safari...). Vai abrir a página do Claude.</li>
+  <li>Entre com a conta que você criou no passo 6.1 e toque em <strong>autorizar</strong>.</li>
+  <li>A página te dá um <strong>código</strong>. Copie esse código, <strong>cole de volta na janelinha do servidor</strong> e dê Enter.</li>
+</ol>
+<p><strong>Como saber que deu certo:</strong> o Claude responde na janelinha, normalmente com uma saudação, e fica esperando você escrever. O cérebro está ligado à sua conta. <strong>Se o link der "expirado":</strong> sem drama — feche com <code>Ctrl + C</code>, digite <code>claude</code> de novo e ele gera um link novo.</p>
+
+<!-- ============ 7. CRIAR SEU BOT NO TELEGRAM ============ -->
+<h2><span class="n">7</span>Criar seu bot no Telegram</h2>
+<p>Agora a parte mais gostosa: criar o "contato" do seu assistente. Isso é feito conversando com o <strong>@BotFather</strong> — o <strong>balcão oficial do Telegram pra criar robôs</strong>. É um atendente automático do próprio Telegram: você pede, ele cria. Grátis e leva 2 minutos, direto no app do celular.</p>
+<ol>
+  <li>No Telegram, toque na <strong>lupa</strong> 🔍 e procure por <strong>BotFather</strong>. Cuidado com imitações: o oficial é <strong>@BotFather</strong> e tem o <strong>selo azul de verificado</strong>. Abra a conversa e toque em "Começar" (ou "Start").</li>
+  <li>Escreva <code>/newbot</code> e envie (é o "pedido" de bot novo — comandos do Telegram começam com a barra <code>/</code>).</li>
+  <li>Ele pergunta o <strong>nome</strong> do bot. É o nome de exibição, como você salvaria um contato — pode ser o nome que você quer dar ao seu assistente (ex.: "Meu Assistente"). Escreva e envie.</li>
+  <li>Depois pergunta o <strong>username</strong>: uma espécie de "endereço" do bot. Tem que ser único no mundo e <strong>terminar em <code>bot</code></strong> (ex.: <code>assistente_da_maria_bot</code>). Se ele disser que já existe, é como placa de carro: alguém já pegou — tente outro (acrescente números, por exemplo).</li>
+  <li>Deu certo? O BotFather manda uma mensagem de parabéns com um <strong>token</strong>: uma linha comprida de letras e números, tipo <code>1234567890:AAH...</code>. Esse token é <strong>a chave do seu bot — trate como senha de banco</strong>: quem tiver essa linha consegue falar em nome do seu assistente. <strong>Copie e guarde junto com a senha do servidor</strong> (toque e segure na mensagem pra copiar). Não mande pra ninguém — só pro seu próprio Claude, no passo 9.</li>
 </ol>
 
 <h3>Agora crie o grupo do assistente</h3>
+<p>Por que um grupo, se é só você? Porque o grupo permite <strong>Tópicos</strong> — conversas separadas por assunto dentro do mesmo lugar (uma pra saúde, uma pra viagem, uma pro dia a dia...). Fica muito mais organizado do que uma conversa única e infinita.</p>
 <ol>
-  <li>No Telegram, crie um <strong>novo grupo</strong> (só com você mesmo) — ex.: "🤖 Meu Assistente".</li>
-  <li>Nas configurações do grupo, ative os <strong>Tópicos</strong> (em "Editar" → "Tópicos"). Cada tópico vira uma conversa separada com o assistente — um pra cada assunto.</li>
-  <li><strong>Adicione o seu bot ao grupo</strong> (Adicionar membro → busque pelo username que você criou) e promova ele a <strong>administrador</strong> do grupo.</li>
+  <li>No Telegram, crie um <strong>novo grupo</strong> (no menu, "Novo grupo") só com você mesmo — dê um nome, ex.: "🤖 Meu Assistente". Se o app exigir adicionar alguém pra criar, adicione o próprio bot já nesse passo.</li>
+  <li>Abra o grupo, toque no <strong>nome dele</strong> no topo, depois em <strong>Editar</strong> (lápis) e ative os <strong>Tópicos</strong>.</li>
+  <li><strong>Adicione o seu bot ao grupo</strong> (na tela do grupo: Adicionar membro → busque pelo username que você criou, o que termina em <code>bot</code>) e <strong>promova ele a administrador</strong> do grupo (toque no bot na lista de membros → "Promover a administrador"). Sem isso ele não consegue ler e responder direito.</li>
 </ol>
 
 <!-- PRINT: conversa com o BotFather mostrando o /newbot e o token (token borrado) -->
@@ -227,24 +283,29 @@ Você vai usar os dois já no próximo passo.</div>
 <!-- PRINT: tela de ativar Tópicos no grupo -->
 <div class="print">📷 print: ativando os Tópicos no grupo</div>
 
-<!-- ============ 7. O QUE VAI ACONTECER AGORA ============ -->
-<h2><span class="n">7</span>O que vai acontecer agora</h2>
+<!-- ============ 8. O QUE VAI ACONTECER AGORA ============ -->
+<h2><span class="n">8</span>O que vai acontecer agora</h2>
 <p>Transparência total, porque é você quem manda aqui. No próximo passo você vai <strong>colar um texto no Claude</strong> (dentro do servidor). Esse texto faz o seguinte:</p>
 <ol>
   <li>O Claude <strong>baixa o kit</strong> do assistente (o "nexum semente") pro seu servidor.</li>
   <li>Ele <strong>monta a base</strong>: o bot do Telegram, o backup automático e a segurança do servidor.</li>
   <li>E aí ele <strong>entrevista você</strong>: pra cada coisa que ele sabe fazer (ler seu e-mail, acompanhar sua agenda, te avisar de notícia, resumir vídeos...), ele <strong>explica o que é, dá um exemplo e pergunta se você quer</strong>. Você liga só o que quiser — e pode mudar de ideia depois, é só conversar.</li>
 </ol>
-<p>E o seu assistente <strong>nasce com regras que ele não quebra</strong>:</p>
+<p>E o seu assistente <strong>nasce com regras que ele não quebra</strong> — leia com atenção, porque é isso que faz dele um assistente de confiança:</p>
 <div class="regras">
-  <div class="r"><span class="ico">🗑️</span><span><strong>Nunca apaga nada.</strong> E-mail, arquivo, anotação: no máximo ele <em>move</em> de lugar — apagar de verdade, nunca.</span></div>
+  <div class="r"><span class="ico">🗑️</span><span><strong>Nunca apaga nada.</strong> E-mail, arquivo, anotação: no máximo ele <em>move</em> de lugar — apagar de verdade, nunca. Você nunca vai "perder" algo por causa dele.</span></div>
   <div class="r"><span class="ico">✋</span><span><strong>Nunca envia e-mail ou mensagem em seu nome sem o seu OK.</strong> Ele escreve o rascunho, te mostra, e só envia se você confirmar. O mesmo vale pra mexer na sua agenda.</span></div>
-  <div class="r"><span class="ico">🔒</span><span><strong>O que é seu fica no seu servidor.</strong> Suas conversas, e-mails e arquivos moram na sua VPS — não vão parar em lugar nenhum.</span></div>
+  <div class="r"><span class="ico">🔒</span><span><strong>O que é seu fica no seu servidor.</strong> Suas conversas, e-mails e arquivos moram na sua VPS — não vão parar em lugar nenhum, nem pra empresa nenhuma.</span></div>
 </div>
 
-<!-- ============ 8. O PROMPT-SEMENTE ============ -->
-<h2><span class="n">8</span>O prompt-semente 🌱</h2>
-<p>Hora de plantar. Na janelinha do servidor, digite <code>claude</code> (se já não estiver com ele aberto), aí <strong>copie o texto inteiro abaixo, cole e dê Enter</strong>. Tenha em mãos o <strong>token do bot</strong> (passo 6) — ele vai pedir.</p>
+<!-- ============ 9. O PROMPT-SEMENTE ============ -->
+<h2><span class="n">9</span>O prompt-semente 🌱</h2>
+<p>Hora de plantar. "Prompt" é só o nome chique pra <strong>recado por escrito que se dá à inteligência artificial</strong> — e este aqui é a semente do seu assistente inteiro. Faça assim:</p>
+<ol>
+  <li>Na janelinha do servidor, digite <code>claude</code> e dê Enter (se ele já não estiver aberto da etapa 6.3).</li>
+  <li>Deixe à mão o <strong>token do bot</strong> (aquela linha comprida do passo 7) — ele vai pedir logo no começo.</li>
+  <li>Toque em <strong>📋 copiar tudo</strong> na caixa abaixo, <strong>cole na janelinha e dê Enter</strong>. Não precisa mudar nada no texto.</li>
+</ol>
 
 <div class="cmd grande"><button onclick="copiar(this)">📋 copiar tudo</button><pre>Você é o instalador do meu assistente pessoal (projeto "nexum semente").
 
@@ -266,13 +327,16 @@ dados ficam neste servidor.
 Fale comigo em português, simples, sem jargão — sou iniciante.
 Comece se apresentando e me pedindo o token do bot do Telegram.</pre></div>
 
-<p>Daqui pra frente é só <strong>conversar</strong>: o Claude explica cada passo, pergunta o que precisa e monta tudo. Quando ele terminar, seu assistente te dá oi no Telegram. 👋</p>
+<p><strong>O que vai acontecer:</strong> o Claude se apresenta em português e <strong>pede o token do bot</strong> — cole a linha comprida e dê Enter. Daí pra frente é só <strong>conversar</strong>: ele explica cada passo, pergunta o que precisa, pede sua confirmação quando for mexer em algo e monta tudo sozinho. Pode levar um tempinho em alguns trechos (ele avisa). Quando terminar, <strong>seu assistente te dá oi no Telegram</strong>. 👋 A partir daí, esqueça a janelinha: sua vida com ele é no celular.</p>
 
-<!-- ============ 9. DEU ERRADO? ============ -->
-<h2><span class="n">9</span>Deu errado?</h2>
-<p>Calma — quase tudo se resolve sem sair do lugar:</p>
+<!-- ============ 10. DEU ERRADO? ============ -->
+<h2><span class="n">10</span>Deu errado?</h2>
+<p>Calma — errar aqui não estraga nada, e quase tudo se resolve sem sair do lugar:</p>
 <ol>
-  <li><strong>Apareceu uma mensagem de erro?</strong> Copie a mensagem inteira e <strong>cole no próprio Claude</strong>, pedindo: <em>"deu este erro, resolve pra mim"</em>. Ele é muito bom nisso — é o caminho certo pra 9 em cada 10 problemas.</li>
+  <li><strong>Apareceu uma mensagem de erro?</strong> Copie a mensagem inteira e <strong>cole no próprio Claude</strong> (na janelinha), pedindo: <em>"deu este erro, resolve pra mim"</em>. Ele é muito bom nisso — é o caminho certo pra 9 em cada 10 problemas.</li>
+  <li><strong>Errei a senha do servidor</strong> (apareceu <em>"Permission denied"</em>)? Acontece direto, porque a senha não aparece enquanto digita. Rode o <code>ssh root@SEU_IP</code> de novo e digite com calma. Errou várias vezes e travou? No painel do site onde você alugou a VPS tem a opção de <strong>redefinir a senha de root</strong> — cria uma nova, anota e tenta de novo.</li>
+  <li><strong>Fechei a janelinha no meio</strong> (ou caiu a internet)? Nada se perdeu. Abra a janelinha de novo, entre no servidor (<code>ssh root@SEU_IP</code>), digite <code>claude</code> e diga a ele: <em>"continue de onde paramos"</em>. Ele retoma.</li>
+  <li><strong>O link do <code>claude login</code> expirou</strong> (ou deu erro ao colar o código)? É só gerar outro: aperte <code>Ctrl + C</code>, digite <code>claude</code> de novo e repita — o link novo funciona.</li>
   <li><strong>Travou de vez</strong> (não conecta, não instala, nada funciona)? <strong>Chama o Diogo.</strong> 🙂 Mande print do erro que ele resolve.</li>
 </ol>
 
