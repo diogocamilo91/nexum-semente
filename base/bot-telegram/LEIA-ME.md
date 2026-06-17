@@ -57,9 +57,9 @@ free -h && df -h /          # RAM e disco (Whisper "small" usa ~700 MB de RAM no
 ## Passo 1 — copiar os arquivos e criar o venv
 
 ```bash
-mkdir -p ~/nexum-bot
-cp -r <pasta-do-repo-clonado>/base/bot-telegram/* <pasta-do-repo-clonado>/base/bot-telegram/.gitignore ~/nexum-bot/
-cd ~/nexum-bot
+mkdir -p ~/semente-bot
+cp -r <pasta-do-repo-clonado>/base/bot-telegram/* <pasta-do-repo-clonado>/base/bot-telegram/.gitignore ~/semente-bot/
+cd ~/semente-bot
 python3 -m venv venv
 venv/bin/pip install --upgrade pip
 venv/bin/pip install -r requirements.txt
@@ -68,7 +68,7 @@ chmod +x run.sh nexumctl.sh
 
 **CHECK:**
 ```bash
-~/nexum-bot/venv/bin/python -c "import telegram, faster_whisper, edge_tts, av; print('deps OK')"
+~/semente-bot/venv/bin/python -c "import telegram, faster_whisper, edge_tts, av; print('deps OK')"
 ```
 
 Se falhar por pouca RAM durante o install (VPS de 2 GB pode matar o pip), crie um
@@ -92,7 +92,7 @@ Peça ao dono, no app do Telegram:
 ```bash
 mkdir -p ~/.config/semente
 # NÃO sobrescrever se já existe (o base/cerebro/ cria esse arquivo antes):
-[ -f ~/.config/semente/config.env ] || cp ~/nexum-bot/config.env.example ~/.config/semente/config.env
+[ -f ~/.config/semente/config.env ] || cp ~/semente-bot/config.env.example ~/.config/semente/config.env
 chmod 600 ~/.config/semente/config.env
 ```
 
@@ -133,18 +133,18 @@ O número que começa com `-100` é o `{TELEGRAM_GROUP_ID}`. Grave em
 
 > Se vier vazio: o privacy mode ainda está ligado (refaça `/setprivacy` → Disable
 > e REMOVA e RE-ADICIONE o bot ao grupo), ou o bot já está rodando e "comeu" os
-> updates (pare com `bash ~/nexum-bot/nexumctl.sh stop` e tente de novo).
+> updates (pare com `bash ~/semente-bot/nexumctl.sh stop` e tente de novo).
 
 **CHECK:** `TELEGRAM_GROUP_ID` preenchido com um número `-100…`.
 
 ## Passo 6 — ligar + instalar o vigia
 
 ```bash
-bash ~/nexum-bot/nexumctl.sh start
+bash ~/semente-bot/nexumctl.sh start
 sleep 5
-bash ~/nexum-bot/nexumctl.sh status      # esperado: >> VIVO
-bash ~/nexum-bot/nexumctl.sh log 20      # esperado: "... bot iniciando (owner=... group=...)"
-bash ~/nexum-bot/nexumctl.sh install-watchdog   # @reboot + vigia a cada 2 min
+bash ~/semente-bot/nexumctl.sh status      # esperado: >> VIVO
+bash ~/semente-bot/nexumctl.sh log 20      # esperado: "... bot iniciando (owner=... group=...)"
+bash ~/semente-bot/nexumctl.sh install-watchdog   # @reboot + vigia a cada 2 min
 crontab -l | grep nexumctl               # esperado: 2 linhas
 ```
 
@@ -178,7 +178,7 @@ crontab -l | grep nexumctl               # esperado: 2 linhas
 | `TELEGRAM_BOT_TOKEN nao encontrado` ao iniciar | config não existe / sem a chave | refazer o passo 3 |
 | Bot morre logo após `start` | erro de import/config | `nexumctl.sh log 40` mostra o traceback; o supervisor reinicia a cada 3 s — corrija a causa antes |
 
-## Mapa dos arquivos (depois de instalado, em `~/nexum-bot/`)
+## Mapa dos arquivos (depois de instalado, em `~/semente-bot/`)
 
 | Arquivo | O que é |
 |---|---|
@@ -198,4 +198,4 @@ crontab -l | grep nexumctl               # esperado: 2 linhas
 - "**/new** zera a conversa do tópico atual."
 - "Pode mandar **texto, foto e áudio**; pra ouvir a resposta, é só pedir ('me responde em áudio')."
 - "Tópico com **⚡** no nome = papo livre / perguntas aleatórias."
-- "Pra ligar/desligar na mão (via SSH): `bash ~/nexum-bot/nexumctl.sh start|stop|status`."
+- "Pra ligar/desligar na mão (via SSH): `bash ~/semente-bot/nexumctl.sh start|stop|status`."

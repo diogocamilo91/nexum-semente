@@ -227,7 +227,8 @@ TRANSCRIÇÃO:
 {transcricao[:180000]}"""
     try:
         r = subprocess.run(
-            [claude_bin, "-p", prompt, "--output-format", "json",
+            [claude_bin, "-p", prompt, "--model", "claude-haiku-4-5",
+             "--output-format", "json",
              "--permission-mode", "bypassPermissions",
              "--mcp-config", emptymcp, "--strict-mcp-config"],
             capture_output=True, text=True, timeout=600)

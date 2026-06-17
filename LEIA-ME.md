@@ -131,9 +131,9 @@ faltar antes do teste. Combine o horário com o dono.
 Rode a bateria inteira e mostre o resultado em linguagem simples:
 
 ```bash
-grep -rn '{[A-Z_]*}' ~/nexum/CLAUDE.md ~/nexum/_nexum/        # esperado: vazio (nenhum slot esquecido)
+grep -rn '{[A-Z_]*}' ~/nexum/CLAUDE.md ~/nexum/_nexum/ ~/.config/semente/config.env ~/semente-bin/   # esperado: vazio (nenhum slot esquecido — em conhecimento, config OU script)
 ls -l ~/.config/semente/config.env                            # esperado: -rw------- (600)
-bash ~/nexum-bot/nexumctl.sh status                           # esperado: >> VIVO
+bash ~/semente-bot/nexumctl.sh status                           # esperado: >> VIVO
 ~/semente-bin/alerta.sh --titulo "🌱" "Teste final"           # chega no Telegram
 bash ~/semente-bin/backup.sh && tail -1 ~/semente-bin/log/backup.log   # backup enviado OK
 SEMENTE_DRYRUN=1 bash ~/semente-bin/fechamento-dia.sh         # fechamento com as seções dos módulos

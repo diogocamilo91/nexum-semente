@@ -245,7 +245,7 @@ Você vai usar os dois já no próximo passo.</div>
 
 <h3>6.2 — Instale o Claude Code no servidor</h3>
 <p>De volta à janelinha do servidor (a do passo 5 — aquela do <code>root@...</code>). A caixa abaixo <strong>baixa e instala o Claude Code</strong> no seu servidor. Você não precisa entender o comando — é só copiar (📋) e colar lá, e dar Enter. Mas se quiser saber: <code>curl</code> é o programa que baixa coisas da internet, e ele baixa o instalador oficial direto do site do Claude e roda.</p>
-<!-- VALIDAR: comando oficial de instalação conforme docs.claude.com — verificado em 10/06/2026, https://claude.ai/install.sh responde OK; conferir se ainda é o comando vigente antes de publicar -->
+<!-- comando oficial de instalação (Native Install) conforme code.claude.com/docs/en/setup — reconfirmado 17/06/2026: segue sendo `curl -fsSL https://claude.ai/install.sh | bash` -->
 <div class="cmd"><button onclick="copiar(this)">📋 copiar</button><pre>curl -fsSL https://claude.ai/install.sh | bash</pre></div>
 <p><strong>O que vai aparecer:</strong> várias linhas de texto passando na tela durante 1–2 minutos — é a instalação trabalhando. Deu certo quando o texto para de passar e o cursor volta a piscar numa linha com <code>root@...</code> (algumas instalações terminam com uma mensagem de sucesso, tipo "installed").</p>
 <p>Quando terminar, <strong>feche a janelinha, abra de novo e entre no servidor outra vez</strong> (o mesmo <code>ssh root@SEU_IP</code> do passo 5, com a mesma senha). Por que isso? A janelinha só "aprende" os programas novos quando abre de novo — é como reiniciar o celular depois de uma atualização.</p>

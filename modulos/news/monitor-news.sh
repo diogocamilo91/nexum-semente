@@ -64,7 +64,7 @@ RESPONDA EXATAMENTE EM 2 LINHAS:
 - Linha 2: se SIM, UMA frase curta dizendo qual é a notícia (pro dono, direto). Se NAO, uma palavra ("rotina").
 EOF
 
-OUT=$(timeout 180 "$CLAUDE" -p "$PROMPT" --output-format json --permission-mode bypassPermissions \
+OUT=$(timeout 180 "$CLAUDE" -p "$PROMPT" --model claude-haiku-4-5 --output-format json --permission-mode bypassPermissions \
         --mcp-config "$EMPTYMCP" --strict-mcp-config 2>>"$LOG")
 RC=$?
 if [ "$RC" -ne 0 ]; then log "juiz falhou (rc=$RC) — não aviso"; exit 0; fi

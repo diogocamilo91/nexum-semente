@@ -40,7 +40,7 @@ MATERIAL:
 $MATERIAL
 EOF
 
-SAIDA=$(timeout 70 "$CLAUDE" -p "$PROMPT" --output-format json --permission-mode bypassPermissions \
+SAIDA=$(timeout 70 "$CLAUDE" -p "$PROMPT" --model claude-haiku-4-5 --output-format json --permission-mode bypassPermissions \
           --mcp-config "$EMPTYMCP" --strict-mcp-config 2>/dev/null | python3 -c '
 import sys, json
 try: d=json.load(sys.stdin)
