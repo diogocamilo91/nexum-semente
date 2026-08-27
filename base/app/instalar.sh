@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
 # ============================================================================
-# INSTALADOR DO CHAT WEB  (kit NEXUM Semente)
+# INSTALADOR DO APP PESSOAL  (kit NEXUM Semente)
 #
-# Faz TUDO: venv, config, servidor web com HTTPS, servico ligado e vigia.
+# Faz TUDO: ambiente, config, servidor web com HTTPS, servico ligado e vigia.
 # Nao pergunta nada — a unica escolha (a senha) sai daqui pronta e e mostrada
 # no fim, uma vez.
 #
 #   bash instalar.sh
+#
+# Opcoes (quase ninguem precisa):
+#   --sem-endereco   nao mexe no Caddy (pra quem ja tem um servidor web/dominio)
+#   --sem-vigia      nao instala o despertador que religa o app sozinho
+#   APP_DIR=...      instala em outra pasta (o padrao e ~/semente-app)
 #
 # Requisitos: o modulo do cerebro e o do Telegram ja instalados (a transcricao
 # de audio reusa o Whisper de la), e as portas 80/443 abertas (o blindar.sh ja
@@ -15,7 +20,15 @@
 set -euo pipefail
 
 KIT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DESTINO="$HOME/semente-chat"
+DESTINO="${APP_DIR:-$HOME/semente-app}"
+COM_ENDERECO=1; COM_VIGIA=1
+for a in "$@"; do
+  case "$a" in
+    --sem-endereco) COM_ENDERECO=0 ;;
+    --sem-vigia)    COM_VIGIA=0 ;;
+    *) echo "opcao desconhecida: $a" >&2; exit 2 ;;
+  esac
+done
 CONFIG="$HOME/.config/semente/config.env"
 
 ok(){ echo "  ✅ $*"; }
@@ -41,12 +54,22 @@ mkdir -p "$(dirname "$CONFIG")"; touch "$CONFIG"; chmod 600 "$CONFIG"
 # ---------------------------------------------------------------- 2. copia
 passo "2/7 instalando em $DESTINO"
 mkdir -p "$DESTINO"
-cp "$KIT/chat.py" "$KIT/tela.html" "$KIT/run.sh" "$KIT/chatctl.sh" \
-   "$KIT/requirements.txt" "$DESTINO/"
-chmod +x "$DESTINO/run.sh" "$DESTINO/chatctl.sh"
-ok "arquivos no lugar"
+# preserva os dados (conversas e anexos) se ja houver uma instalacao aqui
+cp -r "$KIT"/casca.py "$KIT"/servidor.py "$KIT"/run.sh "$KIT"/appctl.sh \
+      "$KIT"/requirements.txt "$KIT"/CONTRATO.md "$DESTINO"/
+rm -rf "$DESTINO/telas.novas" "$DESTINO/nucleo.novo"
+cp -r "$KIT"/telas "$DESTINO"/telas.novas
+cp -r "$KIT"/nucleo "$DESTINO"/nucleo.novo
+rm -rf "$DESTINO/estatico"
+cp -r "$KIT"/estatico "$DESTINO"/estatico
+rm -rf "$DESTINO/telas" "$DESTINO/nucleo"
+mv "$DESTINO/telas.novas" "$DESTINO/telas"
+mv "$DESTINO/nucleo.novo" "$DESTINO/nucleo"
+chmod +x "$DESTINO/run.sh" "$DESTINO/appctl.sh"
+mkdir -p "$DESTINO/dados/anexos"
+ok "arquivos no lugar (as conversas antigas, se havia, continuam em dados/)"
 
-# ---------------------------------------------------------------- 3. venv
+# ---------------------------------------------------------------- 3. ambiente
 passo "3/7 preparando o ambiente do python"
 if [ ! -x "$DESTINO/venv/bin/python" ]; then
   python3 -m venv "$DESTINO/venv" 2>/dev/null || {
@@ -73,12 +96,16 @@ chmod 600 "$CONFIG"
 PORTA="$(grep -E '^CHAT_PORTA=' "$CONFIG" | cut -d= -f2)"
 ok "config em $CONFIG (chmod 600)"
 
-# ---------------------------------------------------------------- 5. endereco (HTTPS)
-passo "5/7 pondo o chat num endereco com cadeado"
+# ---------------------------------------------------------------- 5. endereco
+passo "5/7 pondo o app num endereco com cadeado"
+if [ "$COM_ENDERECO" = "0" ]; then
+  ENDERECO="127.0.0.1:$PORTA"
+  ok "pulado a pedido (--sem-endereco) — aponte o seu servidor web pra 127.0.0.1:$PORTA"
+else
 IP="$(curl -s --max-time 8 https://api.ipify.org || true)"
 [ -n "$IP" ] || IP="$(hostname -I | awk '{print $1}')"
 [ -n "$IP" ] || erro "nao consegui descobrir o IP desta maquina"
-ENDERECO="chat.${IP}.sslip.io"      # dominio-por-IP: HTTPS de graca, sem comprar dominio
+ENDERECO="app.${IP}.sslip.io"      # dominio-por-IP: HTTPS de graca, sem comprar dominio
 
 if ! command -v caddy >/dev/null; then
   echo "  instalando o Caddy (servidor web que cuida do HTTPS sozinho)..."
@@ -92,16 +119,16 @@ if ! command -v caddy >/dev/null; then
 fi
 ok "caddy: $(caddy version | head -1)"
 
-BLOCO="/etc/caddy/Caddyfile"
-if ! sudo grep -q "$ENDERECO" "$BLOCO" 2>/dev/null; then
-  sudo cp "$BLOCO" "$BLOCO.antes-do-chat" 2>/dev/null || true
-  sudo tee -a "$BLOCO" >/dev/null <<CADDY
+CADDYFILE="/etc/caddy/Caddyfile"
+if ! sudo grep -q "$ENDERECO" "$CADDYFILE" 2>/dev/null; then
+  sudo cp "$CADDYFILE" "$CADDYFILE.antes-do-app" 2>/dev/null || true
+  sudo tee -a "$CADDYFILE" >/dev/null <<CADDY
 
-# ---- chat do assistente (kit Semente) ----
+# ---- app pessoal do assistente (kit Semente) ----
 $ENDERECO {
-    # o streaming (SSE) NAO pode passar por compressao nem por buffer:
+    # o streaming da resposta (SSE) NAO pode passar por compressao nem por buffer:
     # senao a resposta chega toda de uma vez, no fim.
-    @stream path /api/conversas/*/stream
+    @stream path /api/chat/conversas/*/stream
     handle @stream {
         reverse_proxy 127.0.0.1:$PORTA {
             flush_interval -1
@@ -116,29 +143,44 @@ CADDY
 fi
 sudo systemctl reload caddy 2>/dev/null || sudo systemctl restart caddy
 ok "endereco: https://$ENDERECO"
+fi
 
 # ---------------------------------------------------------------- 6. ligar
 passo "6/7 ligando"
-bash "$DESTINO/chatctl.sh" start >/dev/null
-bash "$DESTINO/chatctl.sh" install-watchdog >/dev/null
-sleep 3
-ok "$(bash "$DESTINO/chatctl.sh" status | tail -1)"
+bash "$DESTINO/appctl.sh" start >/dev/null
+if [ "$COM_VIGIA" = "1" ]; then
+  bash "$DESTINO/appctl.sh" install-watchdog >/dev/null
+else
+  ok "vigia pulado a pedido (--sem-vigia): o app NAO religa sozinho nem sobe no boot"
+fi
+sleep 4
+ok "$(bash "$DESTINO/appctl.sh" status | head -1)"
 
 # ---------------------------------------------------------------- 7. provar
 passo "7/7 conferindo pelo caminho por onde a pessoa entra"
-CODIGO="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "https://$ENDERECO/" || echo 000)"
+if [ "$COM_ENDERECO" = "0" ]; then
+  ALVO="http://127.0.0.1:$PORTA/"
+else
+  ALVO="https://$ENDERECO/"
+fi
+CODIGO="$(curl -s -o /dev/null -w '%{http_code}' --max-time 25 "$ALVO" || echo 000)"
 [ "$CODIGO" = "200" ] || {
   echo "  ⚠️  o endereco respondeu $CODIGO (o certificado pode levar ~1 min na 1a vez)."
-  echo "     confira: curl -I https://$ENDERECO/   ·   $DESTINO/chatctl.sh log"
+  echo "     confira: curl -I https://$ENDERECO/   ·   $DESTINO/appctl.sh log"
   exit 1; }
-ok "https://$ENDERECO respondeu 200 (a tela de entrar)"
+ok "$ALVO respondeu 200 (a tela de entrar)"
+echo "  telas que subiram:"
+bash "$DESTINO/appctl.sh" telas | sed 's/^/    /'
 
 echo
 echo "════════════════════════════════════════════════════════"
-echo "  CHAT NO AR:  https://$ENDERECO"
+echo "  APP NO AR:   $ALVO"
 [ -n "$SENHA_NOVA" ] && echo "  SENHA:       $SENHA_NOVA   (anote — so aparece aqui)"
 [ -z "$SENHA_NOVA" ] && echo "  SENHA:       a que ja estava em $CONFIG (CHAT_SENHA)"
 echo "════════════════════════════════════════════════════════"
 echo "  No celular: abra o endereco, entre, e use 'Adicionar a"
-echo "  tela de inicio' — vira um app."
-echo "  Controle:   $DESTINO/chatctl.sh {status|log|restart}"
+echo "  tela de inicio' — vira um app de verdade."
+echo "  Controle:   $DESTINO/appctl.sh {status|log|telas|restart}"
+echo
+echo "  Modulo instalado depois (e-mail, agenda, Drive...) aparece"
+echo "  sozinho na gaveta: e so rodar este instalador de novo."

@@ -1,0 +1,4 @@
+# App pessoal (kit NEXUM Semente) — so isso. A transcricao de audio reusa o Whisper
+# que o modulo do Telegram ja instalou (o modelo tem ~460 MB: baixar duas vezes numa
+# VPS de 2 GB seria desperdicio).
+flask>=3,<4

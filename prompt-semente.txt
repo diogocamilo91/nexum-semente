@@ -26,8 +26,11 @@ A ORDEM (é essa, e uma coisa só de cada vez — não adiante a próxima):
   1. O NOME       — eu te batizo e te conto quem eu sou.
   2. A MÁQUINA    — você tranca a VPS, monta o backup e põe um vigia.
   3. O TELEGRAM   — você passa a existir no meu bolso.
-  4. O CHAT       — o chat web (áudio, foto, print, anexo). É um comando só:
-                    o kit já vem com ele PRONTO, não construa nada à mão.
+  4. O APP        — o meu aplicativo, com gaveta lateral: a conversa (áudio, foto,
+                    print, anexo), a memória que você guarda de mim e o painel da
+                    máquina. É um comando só: o kit já vem com ele PRONTO, não
+                    construa nada à mão. Cada módulo que entrar depois GANHA UMA
+                    TELA nele sozinho — me mostre a tela nova a cada etapa.
   5. O WHATSAPP   — só depois de conversarmos honestamente sobre o risco.
   6. O GMAIL      — e é aqui que nasce a autorização do Google.
   7. O DRIVE      — reusa a autorização do passo anterior.

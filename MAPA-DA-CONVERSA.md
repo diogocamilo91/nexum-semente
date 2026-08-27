@@ -26,9 +26,11 @@
 > **2️⃣ A sua máquina trancada** — firewall, entrada protegida, cópia de tudo de hora em
 > hora e um vigia que te avisa se algo cair. Isso é serviço meu, sem pergunta.
 >
-> **3️⃣ Dois lugares pra falar comigo** — o **Telegram**, pro bolso (recado rápido, áudio
-> na rua), e um **chat na internet**, que é a mesa de trabalho: dá pra mandar foto, colar
-> print, anexar arquivo, gravar áudio, arquivar conversa.
+> **3️⃣ O seu aplicativo** — dois lugares pra falar comigo: o **Telegram**, pro bolso
+> (recado rápido, áudio na rua), e um **app só seu**, que você instala na tela do celular.
+> No app tem a conversa (com foto, print, arquivo, áudio), a memória que eu guardo sobre
+> você, e um painel que mostra se está tudo bem na máquina. E ele **ganha telas novas** a
+> cada coisa que você me deixar conectar.
 >
 > **4️⃣ As conexões** — **WhatsApp**, **e-mail** e **Google Drive**, uma de cada vez. Eu
 > te explico cada uma antes: o que é, um exemplo do dia a dia, minha recomendação honesta
@@ -55,7 +57,7 @@
 | 1 | **O nome** (`base/cerebro/`) | ✅ 5 | o nome dela · **o seu nome (o batismo)** · o que ela faz · o tom da conversa · as áreas da vida dela |
 | 2 | **Trancar a máquina** (`seguranca` + `lib` + `backup` + `monitor-vps`) | ⚠️ 1 acesso | a conta GitHub dela (cofre **privado**) — ⚠️ duas fases no SSH, **nunca pule o teste do meio** |
 | 3 | **Telegram** (`base/bot-telegram/`) | ✅ 1 | o token do bot (você explica antes o que é) |
-| 4 | **O chat** (`base/chat/`) | ❌ não | — (1 comando; no fim ela abre no celular) |
+| 4 | **O app** (`base/app/`) | ❌ não | — (1 comando; no fim ela abre no celular e adiciona à tela de início) |
 | 5 | **WhatsApp** (`modulos/whatsapp/`) | ✅ ponderar | aceita ou não — ⚠️ experimental, conversa honesta |
 | 6 | **Gmail** (`modulos/gmail/`) | ✅ 1 autorização | ela clica na autorização do Google |
 | 7 | **Google Drive** (`modulos/drive-docs/`) | ❌ quase | reusa a credencial do Gmail |

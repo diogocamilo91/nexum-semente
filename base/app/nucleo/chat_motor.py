@@ -1,22 +1,16 @@
 #!/usr/bin/env python3
 """
-CHAT WEB do assistente — kit NEXUM Semente.
+O MOTOR DO CHAT (kit NEXUM Semente) — sem nenhuma tela dentro.
 
-O que e: um chat no navegador (celular + PC) que conversa com o Claude Code desta
-maquina. Resposta saindo ao vivo, memoria por conversa, audio, imagem, anexo,
-arquivar e excluir. Feito pra VPS pequena (2 nucleos / 2 GB de RAM).
+Aqui mora o que faz o chat aguentar uso de verdade: o turno do Claude Code, o
+streaming, a memoria por conversa, a fila, a parada e o reconciliador de orfaos.
+Quem desenha a tela e telas/chat.py; quem serve a pagina e o servidor.py.
 
-A REGRA-MAE (todo o resto e consequencia dela):
-    todo estado do turno tem que sobreviver a (1) a pessoa fechar a tela
-    e (2) este servico reiniciar.
-Por isso a "fase" e a "parcial" moram AQUI no servidor (nao no navegador), o
-cronometro e ancorado na hora da mensagem GRAVADA NO BANCO, e existe um
-reconciliador de orfaos no boot — com freio.
-
-Configuracao: ~/.config/semente/config.env  (nada fixo no codigo)
-Controle:     ./chatctl.sh {start|stop|restart|status|log}
+A REGRA-MAE: todo estado do turno tem que sobreviver a (1) a pessoa fechar a tela
+e (2) este servico reiniciar. Por isso a "fase" e a "parcial" moram AQUI (nao no
+navegador), o cronometro e ancorado na hora da mensagem GRAVADA NO BANCO, e o
+reconciliador do boot tem FREIO.
 """
-
 import os
 import re
 import sys
@@ -25,7 +19,6 @@ import time
 import uuid
 import queue
 import sqlite3
-import secrets
 import threading
 import subprocess
 import mimetypes
@@ -33,14 +26,15 @@ import shutil
 from datetime import datetime
 from pathlib import Path
 
-from flask import (Flask, request, session, jsonify, Response, send_file,
-                   redirect, abort)
-
 BASE = Path(__file__).resolve().parent
-DADOS = BASE / "dados"
+DADOS = BASE.parent / "dados"
 ANEXOS = DADOS / "anexos"
 DB = DADOS / "chat.db"
-CONFIG_FILE = Path.home() / ".config" / "semente" / "config.env"
+
+sys.path.insert(0, str(BASE.parent))          # pra achar a casca
+import casca                                   # noqa: E402
+
+CONFIG_FILE = casca.CONFIG_FILE
 
 DADOS.mkdir(parents=True, exist_ok=True)
 ANEXOS.mkdir(parents=True, exist_ok=True)
@@ -48,26 +42,12 @@ ANEXOS.mkdir(parents=True, exist_ok=True)
 
 # ---------------------------------------------------------------- configuracao
 def load_config() -> dict:
-    """Le a config unica do kit. Formato CHAVE=valor, # comenta."""
-    cfg = {}
-    if CONFIG_FILE.exists():
-        for line in CONFIG_FILE.read_text().splitlines():
-            line = line.strip()
-            if not line or line.startswith("#") or "=" not in line:
-                continue
-            k, v = line.split("=", 1)
-            cfg.setdefault(k.strip(), v.strip().strip('"').strip("'"))
-    return cfg
+    """A config unica do kit — a mesma que a casca le."""
+    return casca.config()
 
 
 cfg = load_config()
 
-SENHA = cfg.get("CHAT_SENHA", "")
-if not SENHA:
-    sys.exit(f"ERRO: CHAT_SENHA nao encontrada em {CONFIG_FILE}. "
-             "O instalar.sh grava essa chave — rode ele primeiro.")
-SEGREDO = cfg.get("CHAT_SEGREDO") or secrets.token_hex(32)
-PORTA = int(cfg.get("CHAT_PORTA", "8800"))
 ASSISTENTE = cfg.get("NOME_ASSISTENTE", "Assistente")
 DONO = cfg.get("NOME_DONO", "")
 WORKDIR = os.path.expanduser(cfg.get("DIR_CONHECIMENTO", "~/nexum"))
@@ -626,332 +606,17 @@ def transcreve(caminho) -> str:
         return ""
 
 
-# ---------------------------------------------------------------- web
-app = Flask(__name__, static_folder=None)
-app.secret_key = SEGREDO
-app.config["MAX_CONTENT_LENGTH"] = 64 * 1024 * 1024      # 64 MB por anexo
-
-TENTATIVAS_LOGIN = {}      # ip -> [n, ate_quando]
 
 
-def logado() -> bool:
-    return session.get("ok") is True
-
-
-def exige_login():
-    if not logado():
-        abort(401)
-
-
-PAGINA_LOGIN = """<!doctype html><html lang="pt-BR"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Entrar</title><style>
-:root{color-scheme:dark}
-body{margin:0;height:100dvh;display:grid;place-items:center;background:#0e1013;
-     color:#e8eaed;font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-form{width:min(92vw,320px);display:grid;gap:12px;text-align:center}
-h1{font-size:20px;margin:0 0 8px;font-weight:600}
-input,button{font:inherit;padding:12px 14px;border-radius:12px;border:1px solid #2a2f37}
-input{background:#171a1f;color:#e8eaed}
-button{background:#3b82f6;color:#fff;border:0;font-weight:600;cursor:pointer}
-.erro{color:#f87171;font-size:14px;min-height:20px}
-</style></head><body><form method="post" action="/entrar">
-<h1>__ASSISTENTE__</h1>
-<input type="password" name="senha" placeholder="senha" autofocus autocomplete="current-password">
-<button type="submit">Entrar</button><div class="erro">__ERRO__</div>
-</form></body></html>"""
-
-
-@app.get("/")
-def home():
-    if not logado():
-        return Response(PAGINA_LOGIN.replace("__ASSISTENTE__", ASSISTENTE)
-                        .replace("__ERRO__", ""), mimetype="text/html")
-    html = (BASE / "tela.html").read_text()
-    html = html.replace("{{ASSISTENTE}}", ASSISTENTE).replace("{{VERSAO}}", VERSAO)
-    return Response(html, mimetype="text/html")
-
-
-@app.post("/entrar")
-def entrar():
-    ip = request.headers.get("X-Forwarded-For", request.remote_addr or "?").split(",")[0]
-    n, ate = TENTATIVAS_LOGIN.get(ip, (0, 0))
-    if time.time() < ate:
-        return Response(PAGINA_LOGIN.replace("__ASSISTENTE__", ASSISTENTE)
-                        .replace("__ERRO__", "espere um minuto"), mimetype="text/html")
-    if secrets.compare_digest(request.form.get("senha", ""), SENHA):
-        session["ok"] = True
-        session.permanent = True
-        TENTATIVAS_LOGIN.pop(ip, None)
-        return redirect("/")
-    n += 1
-    TENTATIVAS_LOGIN[ip] = (n, time.time() + 60 if n >= 5 else 0)
-    return Response(PAGINA_LOGIN.replace("__ASSISTENTE__", ASSISTENTE)
-                    .replace("__ERRO__", "senha errada"), mimetype="text/html")
-
-
-@app.get("/sair")
-def sair():
-    session.clear()
-    return redirect("/")
-
-
-@app.get("/saude")
-def saude():
+# ---------------------------------------------------------------- para o resto do app
+def em_voo() -> int:
+    """Quantos turnos estao rodando agora. O appctl le isto pra nao reiniciar em
+    cima de uma resposta que esta saindo (contar processo com `ps` nao serve)."""
     with LOCK:
-        voando = len([t for t in EMVOO.values() if t])
-    return jsonify({"ok": True, "turnos_em_voo": voando, "versao": VERSAO})
+        return len([t for t in EMVOO.values() if t])
 
 
-# --- conversas ---------------------------------------------------------------
-def _conversa_json(r):
-    return {"id": r["id"], "titulo": r["titulo"], "arquivado": bool(r["arquivado"]),
-            "mexido_em": r["mexido_em"]}
-
-
-@app.get("/api/conversas")
-def lista_conversas():
-    exige_login()
-    quais = request.args.get("quais", "ativas")
-    if quais == "arquivadas":
-        onde = "excluido=0 AND arquivado=1"
-    elif quais == "lixeira":
-        onde = "excluido=1"
-    else:
-        onde = "excluido=0 AND arquivado=0"
-    linhas = con().execute(
-        f"SELECT * FROM topicos WHERE {onde} ORDER BY mexido_ts DESC LIMIT 200").fetchall()
-    with LOCK:
-        ocupados = [t for t in EMVOO if EMVOO.get(t)]
-    return jsonify({"conversas": [_conversa_json(r) for r in linhas],
-                    "respondendo": ocupados})
-
-
-@app.post("/api/conversas")
-def nova_conversa():
-    exige_login()
-    c = con()
-    cur = c.execute("INSERT INTO topicos (titulo,criado_em,mexido_em,mexido_ts) "
-                    "VALUES ('Nova conversa',?,?,?)",
-                    (agora_iso(), agora_iso(), time.time()))
-    c.commit()
-    return jsonify({"id": cur.lastrowid})
-
-
-@app.get("/api/conversas/<int:tid>")
-def le_conversa(tid):
-    exige_login()
-    top = con().execute("SELECT * FROM topicos WHERE id=?", (tid,)).fetchone()
-    if not top:
-        abort(404)
-    msgs = con().execute(
-        "SELECT * FROM mensagens WHERE topico_id=? ORDER BY id", (tid,)).fetchall()
-    return jsonify({
-        "conversa": _conversa_json(top),
-        "mensagens": [{
-            "id": m["id"], "papel": m["papel"],
-            "texto": m["transcricao"] or m["texto"] or "",
-            "pensei": m["pensei"] or "",
-            "arquivo": m["arquivo"], "arquivo_nome": m["arquivo_nome"],
-            "arquivo_tipo": m["arquivo_tipo"], "quando": m["quando"],
-        } for m in msgs]})
-
-
-@app.post("/api/conversas/<int:tid>/titulo")
-def renomeia(tid):
-    exige_login()
-    titulo = (request.json or {}).get("titulo", "").strip()[:80]
-    if titulo:
-        con().execute("UPDATE topicos SET titulo=? WHERE id=?", (titulo, tid))
-        con().commit()
-    return jsonify({"ok": True})
-
-
-@app.post("/api/conversas/<int:tid>/arquivar")
-def arquiva(tid):
-    exige_login()
-    v = 1 if (request.json or {}).get("arquivado", True) else 0
-    con().execute("UPDATE topicos SET arquivado=? WHERE id=?", (v, tid))
-    con().commit()
-    return jsonify({"ok": True})
-
-
-@app.post("/api/conversas/<int:tid>/excluir")
-def exclui(tid):
-    """Excluir aqui e ESCONDER, nunca apagar: a conversa sai da lista e continua
-    no banco. Way of life do kit — nada se deleta, tudo se move."""
-    exige_login()
-    v = 0 if (request.json or {}).get("voltar") else 1
-    con().execute("UPDATE topicos SET excluido=?, arquivado=0 WHERE id=?", (v, tid))
-    con().commit()
-    return jsonify({"ok": True})
-
-
-@app.post("/api/conversas/<int:tid>/parar")
-def parar(tid):
-    exige_login()
-    return jsonify({"ok": para_agora(tid)})
-
-
-# --- mandar mensagem ---------------------------------------------------------
-@app.post("/api/conversas/<int:tid>/mensagem")
-def manda(tid):
-    exige_login()
-    if not con().execute("SELECT 1 FROM topicos WHERE id=?", (tid,)).fetchone():
-        abort(404)
-    texto = (request.form.get("texto") or "").strip()
-    arq = request.files.get("arquivo")
-
-    nome_disco = nome_orig = tipo = None
-    transcricao = None
-    if arq and arq.filename:
-        # nome GERADO, nunca o que veio do navegador (travessia de diretorio).
-        ext = os.path.splitext(arq.filename)[1][:10]
-        ext = re.sub(r"[^A-Za-z0-9.]", "", ext)
-        nome_disco = f"{uuid.uuid4().hex}{ext}"
-        nome_orig = os.path.basename(arq.filename)[:120]
-        tipo = arq.mimetype or mimetypes.guess_type(nome_orig)[0] or "application/octet-stream"
-        arq.save(caminho_anexo(nome_disco))
-        if tipo.startswith("audio/") or ext.lower() in (".ogg", ".webm", ".m4a", ".mp3", ".wav"):
-            tipo = tipo if tipo.startswith("audio/") else "audio/webm"
-            transcricao = transcreve(caminho_anexo(nome_disco)) or None
-
-    if not texto and not nome_disco:
-        return jsonify({"erro": "mensagem vazia"}), 400
-
-    # freio por palavra: SO se a mensagem inteira for a palavra (<=26 caracteres).
-    # "parar de mandar e-mail pro fulano" e conteudo, nao freio.
-    limpo = re.sub(r"[^a-zA-Zà-úÀ-Ú! ]", "", texto).strip().lower()
-    if texto and len(texto) <= 26 and limpo in PARADA_PALAVRAS and not nome_disco:
-        grava_msg(tid, "user", texto)
-        para_agora(tid)
-        return jsonify({"ok": True, "parou": True})
-
-    mid = grava_msg(tid, "user", texto, arquivo=nome_disco, arquivo_nome=nome_orig,
-                    arquivo_tipo=tipo, transcricao=transcricao)
-    hub.publish(tid, "nova", {"id": mid})
-    talvez_interrompe(tid)
-    agenda_lote(tid)
-    return jsonify({"ok": True, "id": mid, "transcricao": transcricao or ""})
-
-
-# --- o streaming (SSE) -------------------------------------------------------
-@app.get("/api/conversas/<int:tid>/stream")
-def stream(tid):
-    exige_login()
-
-    def gen():
-        q = hub.subscribe(tid)
-        try:
-            yield ": ping\n\n"                      # solta os headers na hora
-            with LOCK:
-                f = dict(FASE.get(tid) or {})
-                parc = PARCIAL.get(tid, "")
-            if f:
-                # SNAPSHOT: quem chegou agora recebe em que pe esta o turno
-                yield sse("status", {"texto": f["texto"],
-                                     "desde": int((time.time() - f["t0"]) * 1000)})
-                if parc:
-                    yield sse("parcial", {"texto": parc, "n": len(parc)})
-            else:
-                yield sse("fim", {})                # limpa indicador fantasma
-            while True:
-                try:
-                    evento, dados = q.get(timeout=15)
-                except queue.Empty:
-                    yield ": ping\n\n"              # proxy e celular derrubam ocioso
-                    continue
-                yield sse(evento, dados)
-        finally:
-            hub.unsubscribe(tid, q)
-
-    return Response(gen(), mimetype="text/event-stream", headers={
-        "Cache-Control": "no-cache",
-        "X-Accel-Buffering": "no",                  # sem isto o proxy segura o buffer
-        "Connection": "keep-alive",
-    })
-
-
-def sse(evento, dados) -> str:
-    return f"event: {evento}\ndata: {json.dumps(dados, ensure_ascii=False)}\n\n"
-
-
-# --- anexos ------------------------------------------------------------------
-@app.get("/anexo/<nome>")
-def anexo(nome):
-    exige_login()
-    if not re.fullmatch(r"[A-Za-z0-9._-]{1,80}", nome):
-        abort(404)
-    caminho = ANEXOS / nome
-    if not caminho.exists():
-        abort(404)
-    m = con().execute("SELECT arquivo_nome,arquivo_tipo FROM mensagens WHERE arquivo=?",
-                      (nome,)).fetchone()
-    tipo = (m["arquivo_tipo"] if m else None) or "application/octet-stream"
-    if tipo.startswith(("image/", "audio/", "video/")):
-        # inline e com suporte a Range: sem isso o player do celular nao navega no audio
-        return send_file(caminho, mimetype=tipo, conditional=True)
-    return send_file(caminho, mimetype=tipo, as_attachment=True,
-                     download_name=(m["arquivo_nome"] if m else nome), conditional=True)
-
-
-# --- app de celular (PWA) ----------------------------------------------------
-@app.get("/manifest.webmanifest")
-def manifest():
-    return jsonify({
-        "id": "/", "name": ASSISTENTE, "short_name": ASSISTENTE,
-        "start_url": "/", "display": "standalone",
-        "background_color": "#0e1013", "theme_color": "#0e1013",
-        "icons": [{"src": "/icone.png", "sizes": "512x512", "type": "image/png",
-                   "purpose": "any maskable"}],
-    })
-
-
-@app.get("/sw.js")
-def sw():
-    # de proposito NAO faz cache: service worker guardando JS velho e um dos erros
-    # mais caros da casa (voce conserta e o celular continua quebrado).
-    return Response("self.addEventListener('fetch', () => {});",
-                    mimetype="application/javascript")
-
-
-@app.get("/icone.png")
-def icone():
-    p = BASE / "icone.png"
-    if p.exists():
-        return send_file(p, mimetype="image/png")
-    abort(404)
-
-
-# ---------------------------------------------------------------- desligamento
-def desliga(*_):
-    """Dreno: recusa turno novo e espera os em voo — CURTO (esperar demais e igual
-    a nao esperar: o turno morre do mesmo jeito, so que com o app fora do ar)."""
-    DESLIGANDO.set()
-    (DADOS / "parei_em.txt").write_text(agora_iso())   # carimbo ANTES de morrer
-    fim = time.time() + DRENO
-    while time.time() < fim:
-        with LOCK:
-            voando = len([t for t in EMVOO.values() if t])
-        if not voando:
-            break
-        time.sleep(1)
-    log("saindo")
-    os._exit(0)
-
-
-def main():
+def comeca():
+    """Chamado uma vez no boot do app: prepara o banco e retoma os orfaos."""
     init_db()
-    log(f"chat do {ASSISTENTE} — porta {PORTA} · trabalho em {WORKDIR}")
-    if not os.path.exists(CLAUDE):
-        log(f"AVISO: nao achei o claude em {CLAUDE}")
-    import signal
-    signal.signal(signal.SIGTERM, desliga)
-    signal.signal(signal.SIGINT, desliga)
     threading.Thread(target=reconciliar_orfaos, daemon=True).start()
-    app.run(host="127.0.0.1", port=PORTA, threaded=True, debug=False,
-            use_reloader=False)
-
-
-if __name__ == "__main__":
-    main()
