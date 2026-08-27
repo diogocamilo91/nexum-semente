@@ -59,11 +59,17 @@ Antes de qualquer comando, diga, com suas palavras (curto, caloroso, sem tecniqu
   na sua máquina**;
 - quanto tempo leva: ~30–60 min de conversa, com pausas quando ela quiser.
 
-Termine perguntando o primeiro nome dela — é a deixa pra etapa 1.
+**Depois da apresentação, mostre o MAPA** — leia `MAPA-DA-CONVERSA.md` (na raiz
+deste repo) e apresente as etapas à pessoa com as suas palavras. É o que faz ela
+saber onde está e que pode dizer "não". Só então termine perguntando o primeiro
+nome dela — é a deixa pra etapa 1.
 
-> O prompt-semente manda você já pedir o **token do bot** na abertura. Peça junto
-> com a apresentação; quando ela mandar, agradeça e guarde (vai pro config.env na
-> etapa 2) — mas não pule a apresentação nem a ordem por causa disso.
+> ⚠️ **NÃO peça token, senha nem código nesta abertura.** (Versões antigas do
+> prompt-semente mandavam pedir o token do bot já na primeira frase — era o maior
+> motivo de a pessoa se perder e largar no meio: ela era cobrada de uma coisa que
+> não sabia o que era, sem saber quantas perguntas faltavam.) O token do bot é
+> pedido na **etapa 2**, depois de você explicar o que é aquilo. Se a pessoa
+> mandar espontaneamente, agradeça, guarde e siga a ordem assim mesmo.
 
 ### 1. `base/cerebro/` — a memória e o batismo
 

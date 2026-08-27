@@ -62,7 +62,13 @@ ssh -p {PORTA_SSH} usuario@{IP_VPS}
 
 ### 5. FASE 2 (fecha a porta antiga) — na conexão NOVA
 
-Antes, garanta o login por chave (necessário pra desligar senha): se a pessoa ainda entra só por senha, gere/instale uma chave no computador dela (`ssh-keygen` + `ssh-copy-id -p {PORTA_SSH} usuario@{IP_VPS}`) e faça ela entrar uma vez com a chave.
+Antes, garanta o login por chave (necessário pra desligar senha). Se a pessoa ainda entra só por senha:
+
+1. **Gere a chave no computador DELA** (a parte privada nunca sai do computador):
+   - Windows (PowerShell) / Mac / Linux: `ssh-keygen -t ed25519 -C "<aparelho>"` → Enter nas perguntas. A parte pública fica em `~/.ssh/id_ed25519.pub`.
+2. **Instale a parte pública na VPS — preferindo o PAINEL do provedor.** Quase todo provedor (HostGator, Hostinger…) tem no painel uma tela tipo *"Chaves SSH" → Adicionar chave*, que sincroniza sozinha com o servidor. Se existir, use-a: peça pra pessoa colar ali o conteúdo do `.pub` (mostre com `cat ~/.ssh/id_ed25519.pub`) e dar um nome ao aparelho. **É o caminho recomendado** — fica registrado no painel e a pessoa repete sozinha pra cada aparelho novo.
+   - **Só se o painel não tiver essa opção**, instale pelo terminal: `ssh-copy-id -p {PORTA_SSH} usuario@{IP_VPS}`.
+3. Faça a pessoa **entrar uma vez com a chave** (sem senha) pra comprovar.
 
 ```bash
 sudo bash ~/semente-bin/blindar.sh fase2
