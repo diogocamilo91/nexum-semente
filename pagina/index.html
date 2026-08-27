@@ -114,6 +114,7 @@ li{margin:7px 0}
   <div class="item"><span class="ico">📧</span><span>Ele <strong>olha seus e-mails</strong> e te avisa só do que importa. A propaganda? Ele arquiva sozinho, sem te incomodar.</span></div>
   <div class="item"><span class="ico">🌙</span><span>Todo dia às 21h chega um <strong>resumo do seu dia</strong> e da sua agenda de amanhã. Você vai dormir sabendo o que vem.</span></div>
   <div class="item"><span class="ico">🔎</span><span>Pergunta <strong>qualquer coisa</strong> — receita, remédio, notícia, "quanto tá o dólar" — e ele pesquisa na internet e responde na hora.</span></div>
+  <div class="item"><span class="ico">💻</span><span>E quando o assunto é longo, você abre o <strong>chat dele</strong> — um endereço só seu, que vira um aplicativo no celular: manda <strong>foto, print, arquivo, áudio</strong> e vê a resposta saindo ao vivo.</span></div>
   <div class="item"><span class="ico">🧠</span><span>E o melhor: <strong>ele não esquece</strong>. Ele te conhece, guarda o que aprende sobre você e fica melhor a cada semana.</span></div>
 </div>
 <p>Agora, a parte mais importante: <strong>ele não é um aplicativo de empresa.</strong> Não tem empresa olhando suas conversas, não tem anúncio, não tem "termos de uso" mudando. Ele é <strong>seu</strong>: mora num servidor alugado <em>no seu nome</em>, e ninguém além de você tem acesso. É como ter um funcionário de confiança que mora num escritório só seu.</p>
@@ -130,12 +131,13 @@ li{margin:7px 0}
   <div class="item"><span class="ico">🧠</span><span><strong>O Claude</strong> — o <strong>cérebro</strong>. É a inteligência artificial que pensa, escreve e entende você. Funciona por assinatura (~US$ 20/mês no plano Pro), como uma Netflix.</span></div>
   <div class="item"><span class="ico">💬</span><span><strong>O Telegram</strong> — a <strong>boca e o ouvido</strong>. É o aplicativo onde você conversa com o assistente, muito parecido com o WhatsApp, e é grátis. Por que Telegram e não WhatsApp? Porque o Telegram <strong>permite criar "robôs de conversa" oficialmente</strong> — é um recurso do aplicativo, feito pra isso. No WhatsApp isso não existe de forma oficial.</span></div>
   <div class="item"><span class="ico">🤖</span><span><strong>O bot</strong> — o "<strong>contato</strong>" do seu assistente dentro do Telegram. Você cria ele em 2 minutos (a gente ensina) e ele aparece na sua lista como um contato qualquer. É por ele que vocês conversam.</span></div>
+  <div class="item"><span class="ico">💻</span><span><strong>O chat</strong> — a <strong>segunda porta</strong>, e ela já vem pronta no kit. É um endereço na internet, só seu e com senha, que você abre no celular ou no computador. O Telegram é o bolso (recado rápido); o chat é a mesa de trabalho: assunto longo, <strong>foto, print colado, arquivo anexado, áudio gravado</strong>, e conversa que dá pra arquivar.</span></div>
   <div class="item"><span class="ico">📎</span><span><strong>Google (e-mail, agenda, arquivos) e WhatsApp</strong> — <strong>opcionais</strong>. Lá no final, o próprio assistente pergunta, <strong>um por um</strong>, se você quer conectar cada coisa — e explica antes o que cada conexão faz. Você decide. Nada é ligado sem você dizer sim.</span></div>
 </div>
 <p>Resumindo o desenho (só pra olhar, não precisa copiar):</p>
-<div class="card"><pre style="margin:0;font:14px/1.8 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#3A3A3A;white-space:pre-wrap">Você (Telegram no celular)
-        ⇅  conversa
-O bot (o "contato" do assistente)
+<div class="card"><pre style="margin:0;font:14px/1.8 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#3A3A3A;white-space:pre-wrap">Você (celular)
+   ├── Telegram — o bolso: recado rápido, áudio na rua
+   └── O chat   — a mesa: foto, print, anexo, assunto longo
         ⇅
 A VPS (a casa, ligada 24h)  +  O Claude (o cérebro)</pre></div>
 <p>Sua parte na montagem é alugar a casa (passo 4), entrar nela (passo 5), instalar o cérebro (passo 6) e criar o contato no Telegram (passo 7). Aí o próprio Claude monta o resto conversando com você.</p>
@@ -289,11 +291,14 @@ Você vai usar os dois já no próximo passo.</div>
 
 <!-- ============ 8. O QUE VAI ACONTECER AGORA ============ -->
 <h2><span class="n">8</span>O que vai acontecer agora</h2>
-<p>Transparência total, porque é você quem manda aqui. No próximo passo você vai <strong>colar um texto no Claude</strong> (dentro do servidor). Esse texto faz o seguinte:</p>
+<p>Transparência total, porque é você quem manda aqui. No próximo passo você vai <strong>colar um texto no Claude</strong> (dentro do servidor). A partir dali ele monta tudo conversando com você, <strong>nesta ordem</strong> — uma coisa de cada vez, e ele te diz onde vocês estão a cada etapa:</p>
 <ol>
-  <li>O Claude <strong>baixa o kit</strong> do assistente (o "nexum semente") pro seu servidor.</li>
-  <li>Ele <strong>monta a base</strong>: o bot do Telegram, o backup automático e a segurança do servidor.</li>
-  <li>E aí ele <strong>entrevista você</strong>: pra cada coisa que ele sabe fazer (ler seu e-mail, acompanhar sua agenda, te avisar de notícia, resumir vídeos...), ele <strong>explica o que é, dá um exemplo e pergunta se você quer</strong>. Você liga só o que quiser — e pode mudar de ideia depois, é só conversar.</li>
+  <li><strong>Você dá um nome a ele.</strong> É o batismo: ele te pergunta quem você é, o que você faz e como quer que ele fale com você. É o que faz ele ser <em>seu</em>.</li>
+  <li><strong>Ele tranca o servidor.</strong> Firewall, entrada protegida, cópia de tudo de hora em hora e um vigia que te avisa se algo cair. Serviço dele, sem pergunta.</li>
+  <li><strong>Ele entra no seu Telegram.</strong> A partir daí ele existe no seu bolso.</li>
+  <li><strong>Ele monta o chat na internet.</strong> Um endereço só seu, com senha, que você abre no celular como se fosse um aplicativo — e onde dá pra <strong>gravar áudio, mandar foto, colar print, anexar arquivo</strong> e arquivar conversa.</li>
+  <li><strong>Aí vêm as conexões</strong>, uma de cada vez, cada uma explicada antes: <strong>WhatsApp</strong> → <strong>e-mail</strong> → <strong>Google Drive</strong>. Você aceita ou recusa cada uma — e recusar não custa nada, dá pra ligar depois.</li>
+  <li><strong>No fim ele te oferece os extras</strong> (agenda, notícias, transcrever gravações, pesquisa na internet). Sobremesa.</li>
 </ol>
 <p>E o seu assistente <strong>nasce com regras que ele não quebra</strong> — leia com atenção, porque é isso que faz dele um assistente de confiança:</p>
 <div class="regras">
@@ -307,31 +312,56 @@ Você vai usar os dois já no próximo passo.</div>
 <p>Hora de plantar. "Prompt" é só o nome chique pra <strong>recado por escrito que se dá à inteligência artificial</strong> — e este aqui é a semente do seu assistente inteiro. Faça assim:</p>
 <ol>
   <li>Na janelinha do servidor, digite <code>claude</code> e dê Enter (se ele já não estiver aberto da etapa 6.3).</li>
-  <li>Deixe à mão o <strong>token do bot</strong> (aquela linha comprida do passo 7) — ele vai pedir logo no começo.</li>
+  <li>Deixe à mão o <strong>token do bot</strong> (aquela linha comprida do passo 7) — ele vai pedir mais pra frente, na hora certa, e vai explicar antes pra que serve.</li>
   <li>Toque em <strong>📋 copiar tudo</strong> na caixa abaixo, <strong>cole na janelinha e dê Enter</strong>. Não precisa mudar nada no texto.</li>
 </ol>
 
-<div class="cmd grande"><button onclick="copiar(this)">📋 copiar tudo</button><pre>Você é o instalador do meu assistente pessoal (projeto "nexum semente").
+<div class="cmd grande"><button onclick="copiar(this)">📋 copiar tudo</button><pre>Você é o meu assistente pessoal nascendo agora — e o instalador de si mesmo
+(projeto "nexum semente"). Eu sou leigo: não sou programador, talvez este seja
+o primeiro terminal da minha vida. Fale português simples, sem jargão.
 
-Faça nesta ordem:
-1. Clone o repositório do kit:
-   git clone https://github.com/diogocamilo91/nexum-semente ~/nexum-semente
-2. Leia o arquivo ~/nexum-semente/LEIA-ME.md e siga as instruções
-   dele à risca — ele é o seu roteiro de instalação.
-3. Instale a base (bot do Telegram, backup, segurança) e depois me
-   ENTREVISTE módulo a módulo: pra cada módulo, explique o que é,
-   dê um exemplo, diga sua recomendação e a regra de segurança,
-   e só instale o que eu aceitar.
+PRIMEIRO, antes de qualquer comando, baixe o kit e leia o seu roteiro:
 
-Regras inegociáveis do assistente que você vai montar (estão no kit,
-mas reforço): nunca apagar nada (mover, nunca deletar); nunca enviar
-e-mail/mensagem externa nem editar agenda sem meu OK explícito; meus
-dados ficam neste servidor.
+  git clone https://github.com/diogocamilo91/nexum-semente ~/nexum-semente
 
-Fale comigo em português, simples, sem jargão — sou iniciante.
-Comece se apresentando e me pedindo o token do bot do Telegram.</pre></div>
+Depois leia, nesta ordem:
+  ~/nexum-semente/MAPA-DA-CONVERSA.md   (o roteiro que você vai me mostrar)
+  ~/nexum-semente/LEIA-ME.md            (o seu manual de instalação, à risca)
 
-<p><strong>O que vai acontecer:</strong> o Claude se apresenta em português e <strong>pede o token do bot</strong> — cole a linha comprida e dê Enter. Daí pra frente é só <strong>conversar</strong>: ele explica cada passo, pergunta o que precisa, pede sua confirmação quando for mexer em algo e monta tudo sozinho. Pode levar um tempinho em alguns trechos (ele avisa). Quando terminar, <strong>seu assistente te dá oi no Telegram</strong>. 👋 A partir daí, esqueça a janelinha: sua vida com ele é no celular.</p>
+COMO EU QUERO A NOSSA CONVERSA:
+
+1. Se apresente e me diga, em 5 linhas, o que vai acontecer nesta próxima hora.
+2. Me mostre o MAPA — as etapas todas de uma vez, pra eu saber onde estou.
+   Depois disso, volte a me perguntar UMA COISA POR VEZ.
+3. Nunca me despeje um questionário e nunca me peça senha, token ou código
+   sem antes explicar o que é aquilo, pra que serve e o que você NÃO vai fazer
+   com ele.
+4. Detalhe técnico que pra mim dá no mesmo: decida você e siga. Não me pergunte.
+5. A cada etapa concluída, me diga onde estamos no mapa e o que vem depois.
+
+A ORDEM (é essa, e uma coisa só de cada vez — não adiante a próxima):
+
+  1. O NOME       — eu te batizo e te conto quem eu sou.
+  2. A MÁQUINA    — você tranca a VPS, monta o backup e põe um vigia.
+  3. O TELEGRAM   — você passa a existir no meu bolso.
+  4. O CHAT       — o chat web (áudio, foto, print, anexo). É um comando só:
+                    o kit já vem com ele PRONTO, não construa nada à mão.
+  5. O WHATSAPP   — só depois de conversarmos honestamente sobre o risco.
+  6. O GMAIL      — e é aqui que nasce a autorização do Google.
+  7. O DRIVE      — reusa a autorização do passo anterior.
+  Depois: me pergunte se quero os extras (agenda, notícias, gravações, pesquisa).
+
+REGRAS SUAS QUE NÃO SE NEGOCIAM (já vêm no kit — reforço aqui):
+  - nunca apagar nada: mover, sim; deletar, nunca;
+  - nunca enviar e-mail ou mensagem pra outra pessoa sem meu OK explícito no
+    texto exato que vai sair;
+  - o que é meu fica nesta máquina, e segredo nunca vai pro GitHub;
+  - não afirmar que algo funcionou sem ter olhado o resultado pelo caminho por
+    onde eu entro (log verde e "200" não provam nada).
+
+Comece agora pela apresentação e pelo mapa. Não me peça nada ainda.</pre></div>
+
+<p><strong>O que vai acontecer:</strong> o Claude se apresenta em português, te mostra <strong>o mapa inteiro da conversa</strong> (pra você saber onde está e quanto falta) e pergunta o seu primeiro nome. Daí pra frente é só <strong>conversar</strong>: ele explica cada passo, pergunta o que precisa, pede sua confirmação quando for mexer em algo e monta tudo sozinho. Pode levar um tempinho em alguns trechos (ele avisa). Quando terminar, <strong>seu assistente te dá oi no Telegram</strong>. 👋 A partir daí, esqueça a janelinha: sua vida com ele é no celular.</p>
 
 <!-- ============ 10. DEU ERRADO? ============ -->
 <h2><span class="n">10</span>Deu errado?</h2>

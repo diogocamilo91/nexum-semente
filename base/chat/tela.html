@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e1013">
+<link rel="manifest" href="/manifest.webmanifest">
+<title>{{ASSISTENTE}}</title>
+<style>
+:root{
+  color-scheme:dark;
+  --fundo:#0e1013; --painel:#14171c; --linha:#242931; --texto:#e8eaed;
+  --fraco:#9aa3ae; --azul:#3b82f6; --minha:#1e3a5f; --dele:#1a1d23;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100dvh;overflow:hidden}
+body{background:var(--fundo);color:var(--texto);
+     font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+     display:grid;grid-template-columns:280px 1fr}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+/* ---------- lista de conversas ---------- */
+#lado{background:var(--painel);border-right:1px solid var(--linha);
+      display:flex;flex-direction:column;min-height:0}
+#lado header{padding:14px 14px 10px;display:flex;gap:8px;align-items:center}
+#lado header b{flex:1;font-size:15px}
+.icone{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;
+       font-size:17px}
+.icone:hover{background:#20242b}
+#abas{display:flex;gap:4px;padding:0 10px 8px}
+#abas button{flex:1;padding:6px;border-radius:9px;font-size:12.5px;color:var(--fraco)}
+#abas button.on{background:#20242b;color:var(--texto)}
+#conversas{flex:1;overflow-y:auto;padding:4px 8px 16px}
+.conv{padding:9px 10px;border-radius:10px;display:flex;gap:8px;align-items:center;
+      cursor:pointer;font-size:14.5px}
+.conv:hover{background:#1b1f25}
+.conv.on{background:#232830}
+.conv span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.conv .pt{width:7px;height:7px;border-radius:50%;background:var(--azul);flex:0 0 auto;
+          animation:pisca 1.2s infinite}
+@keyframes pisca{50%{opacity:.25}}
+.conv .mais{opacity:0;font-size:15px;color:var(--fraco);padding:0 2px}
+.conv:hover .mais,.conv.on .mais{opacity:1}
+
+/* ---------- conversa ---------- */
+#tela{display:flex;flex-direction:column;min-height:0;min-width:0}
+#topo{display:flex;align-items:center;gap:8px;padding:12px 14px;
+      border-bottom:1px solid var(--linha);background:var(--painel)}
+#topo #titulo{flex:1;font-size:15px;font-weight:600;overflow:hidden;
+              text-overflow:ellipsis;white-space:nowrap}
+#voltar{display:none}
+#msgs{flex:1;overflow-y:auto;padding:18px 16px 8px;display:flex;
+      flex-direction:column;gap:14px}
+.msg{max-width:min(760px,86%);padding:11px 14px;border-radius:16px;
+     white-space:pre-wrap;word-wrap:break-word;overflow-wrap:anywhere}
+.msg.user{align-self:flex-end;background:var(--minha);border-bottom-right-radius:5px}
+.msg.assistant{align-self:flex-start;background:var(--dele);border-bottom-left-radius:5px}
+.msg.sistema{align-self:center;background:transparent;color:var(--fraco);font-size:13.5px;
+             text-align:center;padding:2px}
+.msg img{max-width:100%;border-radius:10px;display:block;margin:4px 0}
+.msg audio{width:min(300px,70vw);margin:4px 0}
+.msg a.arq{display:inline-flex;gap:6px;align-items:center;color:#93c5fd;
+           text-decoration:none;font-size:14px}
+.msg code{background:#0b0d10;padding:1px 5px;border-radius:5px;font-size:14px}
+.msg pre{background:#0b0d10;padding:10px 12px;border-radius:10px;overflow-x:auto;
+         margin:8px 0}
+.msg pre code{background:none;padding:0}
+.msg .pensei{margin-top:8px;font-size:13.5px;color:var(--fraco)}
+.msg .pensei summary{cursor:pointer}
+#status{align-self:flex-start;display:none;gap:10px;align-items:center;
+        color:var(--fraco);font-size:14px;padding:2px 4px}
+#status .bolas{display:flex;gap:4px}
+#status .bolas i{width:6px;height:6px;border-radius:50%;background:var(--fraco);
+                 animation:pisca 1.1s infinite}
+#status .bolas i:nth-child(2){animation-delay:.15s}
+#status .bolas i:nth-child(3){animation-delay:.3s}
+#parar{border:1px solid var(--linha);border-radius:8px;padding:2px 9px;font-size:13px}
+
+/* ---------- compositor ---------- */
+#baixo{border-top:1px solid var(--linha);background:var(--painel);
+       padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+#anexado{display:none;align-items:center;gap:8px;font-size:13.5px;color:var(--fraco);
+         padding:0 4px 8px}
+#anexado img{height:38px;border-radius:6px}
+#caixa{display:flex;gap:8px;align-items:flex-end}
+#texto{flex:1;resize:none;max-height:180px;min-height:44px;padding:11px 14px;
+       border-radius:14px;border:1px solid var(--linha);background:#171a1f;
+       color:var(--texto);font:inherit;outline:none}
+#texto:focus{border-color:#33465e}
+#baixo .icone{flex:0 0 auto;width:44px;height:44px;border-radius:14px;background:#171a1f;
+              border:1px solid var(--linha)}
+#enviar{background:var(--azul);border-color:var(--azul)}
+#gravar.on{background:#dc2626;border-color:#dc2626}
+#menu{position:fixed;background:var(--painel);border:1px solid var(--linha);
+      border-radius:12px;padding:6px;display:none;z-index:9;min-width:170px;
+      box-shadow:0 12px 30px #0009}
+#menu button{display:block;width:100%;text-align:left;padding:9px 12px;
+             border-radius:8px;font-size:14px}
+#menu button:hover{background:#20242b}
+#aviso{position:fixed;left:50%;top:14px;transform:translateX(-50%);background:#20242b;
+       border:1px solid var(--linha);padding:9px 16px;border-radius:12px;font-size:14px;
+       display:none;z-index:20}
+
+@media (max-width:760px){
+  body{grid-template-columns:1fr}
+  #lado{position:fixed;inset:0;z-index:10;width:100%}
+  body.aberta #lado{display:none}
+  body:not(.aberta) #tela{display:none}
+  #voltar{display:grid}
+  .msg{max-width:90%}
+}
+</style>
+</head>
+<body>
+
+<aside id="lado">
+  <header>
+    <b>{{ASSISTENTE}}</b>
+    <button class="icone" id="nova" title="Nova conversa">✚</button>
+    <button class="icone" onclick="location.href='/sair'" title="Sair">🚪</button>
+  </header>
+  <div id="abas">
+    <button data-quais="ativas" class="on">Conversas</button>
+    <button data-quais="arquivadas">Arquivadas</button>
+    <button data-quais="lixeira">Excluídas</button>
+  </div>
+  <div id="conversas"></div>
+</aside>
+
+<main id="tela">
+  <div id="topo">
+    <button class="icone" id="voltar">‹</button>
+    <div id="titulo">—</div>
+    <button class="icone" id="opcoes" title="Opções">⋯</button>
+  </div>
+  <div id="msgs"></div>
+  <div id="baixo">
+    <div id="anexado"></div>
+    <div id="caixa">
+      <button class="icone" id="clipe" title="Anexar">📎</button>
+      <textarea id="texto" rows="1" placeholder="Escreva, cole um print ou grave um áudio…"></textarea>
+      <button class="icone" id="gravar" title="Gravar áudio">🎤</button>
+      <button class="icone" id="enviar" title="Enviar">➤</button>
+    </div>
+    <input type="file" id="arquivo" hidden>
+  </div>
+</main>
+
+<div id="menu"></div>
+<div id="aviso"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+let atual = null, es = null, buf = "", n = 0, quais = "ativas", anexo = null;
+let gravador = null, pedacos = [], t0 = null, relogio = null;
+
+function aviso(t){ const a=$("#aviso"); a.textContent=t; a.style.display="block";
+  clearTimeout(a._t); a._t=setTimeout(()=>a.style.display="none", 2600); }
+
+function escapa(s){ return (s||"").replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+function formata(s){
+  let h = escapa(s);
+  h = h.replace(/```(\w*)\n?([\s\S]*?)```/g, (m,l,c) => `<pre><code>${c}</code></pre>`);
+  h = h.replace(/`([^`\n]+)`/g, "<code>$1</code>");
+  h = h.replace(/\*\*([^*\n]+)\*\*/g, "<b>$1</b>");
+  h = h.replace(/(^|\s)(https?:\/\/[^\s<]+)/g, '$1<a class="arq" href="$2" target="_blank" rel="noopener">$2</a>');
+  return h;
+}
+
+/* ---------------- lista de conversas ---------------- */
+async function carregaLista(){
+  const r = await fetch(`/api/conversas?quais=${quais}`);
+  if (r.status === 401) return location.reload();
+  const d = await r.json();
+  const box = $("#conversas"); box.innerHTML = "";
+  if (!d.conversas.length){
+    box.innerHTML = `<div style="padding:14px;color:var(--fraco);font-size:14px">nada aqui</div>`;
+  }
+  for (const c of d.conversas){
+    const el = document.createElement("div");
+    el.className = "conv" + (c.id === atual ? " on" : "");
+    el.innerHTML = (d.respondendo.includes(c.id) ? '<i class="pt"></i>' : "")
+                 + `<span></span><button class="mais">⋯</button>`;
+    el.querySelector("span").textContent = c.titulo;
+    el.onclick = e => { if (e.target.classList.contains("mais")) return menuConversa(e, c);
+                        abre(c.id); };
+    el.querySelector(".mais").onclick = e => { e.stopPropagation(); menuConversa(e, c); };
+    box.appendChild(el);
+  }
+}
+
+function menuConversa(e, c){
+  e.stopPropagation();
+  const m = $("#menu"); m.innerHTML = "";
+  const item = (txt, fn) => { const b=document.createElement("button");
+    b.textContent = txt; b.onclick = () => { m.style.display="none"; fn(); }; m.appendChild(b); };
+  item("Renomear", async () => {
+    const t = prompt("Novo nome:", c.titulo); if (!t) return;
+    await api(`/api/conversas/${c.id}/titulo`, {titulo: t});
+    if (c.id === atual) $("#titulo").textContent = t;
+    carregaLista();
+  });
+  if (quais === "lixeira"){
+    item("Restaurar", async () => { await api(`/api/conversas/${c.id}/excluir`, {voltar:true});
+      aviso("de volta"); carregaLista(); });
+  } else {
+    item(c.arquivado ? "Desarquivar" : "Arquivar", async () => {
+      await api(`/api/conversas/${c.id}/arquivar`, {arquivado: !c.arquivado});
+      aviso(c.arquivado ? "de volta na lista" : "arquivada"); carregaLista(); });
+    item("Excluir", async () => {
+      await api(`/api/conversas/${c.id}/excluir`, {});
+      aviso("foi pras excluídas — nada some de verdade"); carregaLista(); });
+  }
+  m.style.display = "block";
+  const r = e.target.getBoundingClientRect();
+  m.style.left = Math.min(r.left, innerWidth - 190) + "px";
+  m.style.top = (r.bottom + 6) + "px";
+}
+document.addEventListener("click", e => {
+  if (!e.target.closest("#menu")) $("#menu").style.display = "none";
+});
+
+const api = (url, body) => fetch(url, {method:"POST", headers:{"Content-Type":"application/json"},
+                                      body: JSON.stringify(body||{})}).then(r=>r.json());
+
+/* ---------------- abrir conversa ---------------- */
+async function abre(id){
+  atual = id; buf = ""; n = 0;
+  document.body.classList.add("aberta");
+  const d = await (await fetch(`/api/conversas/${id}`)).json();
+  $("#titulo").textContent = d.conversa.titulo;
+  pinta(d.mensagens);
+  carregaLista();
+  ligaStream(id);
+  localStorage.setItem("ultima", id);
+}
+
+function pinta(msgs){
+  const box = $("#msgs"); box.innerHTML = "";
+  for (const m of msgs) box.appendChild(bolha(m));
+  const st = document.createElement("div"); st.id = "status";
+  st.innerHTML = `<span class="bolas"><i></i><i></i><i></i></span>
+                  <span id="stxt">pensando</span><span id="stempo"></span>
+                  <button id="parar">parar</button>`;
+  box.appendChild(st);
+  $("#parar").onclick = () => api(`/api/conversas/${atual}/parar`);
+  desce();
+}
+
+function bolha(m){
+  const el = document.createElement("div");
+  el.className = "msg " + m.papel;
+  let html = "";
+  if (m.arquivo){
+    const url = `/anexo/${m.arquivo}`, t = m.arquivo_tipo || "";
+    if (t.startsWith("image/")) html += `<img src="${url}" alt="">`;
+    else if (t.startsWith("audio/")) html += `<audio controls src="${url}"></audio>`;
+    else html += `<a class="arq" href="${url}">📎 ${escapa(m.arquivo_nome||"arquivo")}</a>`;
+  }
+  if (m.texto) html += `<div>${formata(m.texto)}</div>`;
+  if (m.pensei) html += `<details class="pensei"><summary>o que ele pensou</summary>${formata(m.pensei)}</details>`;
+  el.innerHTML = html || "&nbsp;";
+  return el;
+}
+
+function desce(){ const b = $("#msgs"); b.scrollTop = b.scrollHeight; }
+
+/* ---------------- streaming ---------------- */
+function ligaStream(id){
+  if (es) es.close();
+  es = new EventSource(`/api/conversas/${id}/stream`);
+  es.addEventListener("status", e => { const d = JSON.parse(e.data); mostraStatus(d.texto, d.desde); });
+  es.addEventListener("parcial", e => { const d = JSON.parse(e.data);
+    buf = d.texto; n = d.n; digitando(); });                 /* SETA: idempotente */
+  es.addEventListener("delta", e => { const d = JSON.parse(e.data);
+    if (d.n <= n) return;                                    /* dedup do que ja veio */
+    buf += d.texto; n = d.n; digitando(); });
+  es.addEventListener("titulo", e => { $("#titulo").textContent = JSON.parse(e.data).titulo;
+    carregaLista(); });
+  es.addEventListener("nova", () => recarrega());
+  es.addEventListener("fim", () => { buf=""; n=0; escondeStatus(); recarrega(); });
+}
+
+async function recarrega(){
+  if (!atual) return;
+  const d = await (await fetch(`/api/conversas/${atual}`)).json();
+  const perto = $("#msgs").scrollHeight - $("#msgs").scrollTop - $("#msgs").clientHeight < 220;
+  pinta(d.mensagens);
+  if (!perto) {} else desce();
+  carregaLista();
+}
+
+function mostraStatus(texto, desde){
+  const st = $("#status"); if (!st) return;
+  st.style.display = "flex";
+  $("#stxt").textContent = texto;
+  t0 = Date.now() - (desde || 0);
+  clearInterval(relogio);
+  relogio = setInterval(() => {
+    const s = Math.floor((Date.now() - t0)/1000);
+    $("#stempo").textContent = s < 60 ? `· ${s}s`
+      : `· ${Math.floor(s/60)} min${s%60 ? " " + (s%60) + "s" : ""}`;
+  }, 1000);
+}
+function escondeStatus(){
+  const st = $("#status"); if (st) st.style.display = "none";
+  clearInterval(relogio);
+  const p = document.getElementById("prev"); if (p) p.remove();
+}
+function digitando(){
+  let p = document.getElementById("prev");
+  if (!p){ p = document.createElement("div"); p.id = "prev"; p.className = "msg assistant";
+           $("#msgs").insertBefore(p, $("#status")); }
+  p.innerHTML = formata(buf);
+  desce();
+}
+
+/* ---------------- mandar ---------------- */
+async function envia(){
+  const texto = $("#texto").value.trim();
+  if (!texto && !anexo) return;
+  if (!atual) await novaConversa();
+  const fd = new FormData();
+  fd.append("texto", texto);
+  if (anexo) fd.append("arquivo", anexo, anexo.name || "anexo");
+  $("#texto").value = ""; $("#texto").style.height = "auto";
+  limpaAnexo();
+  const r = await fetch(`/api/conversas/${atual}/mensagem`, {method:"POST", body: fd});
+  if (!r.ok){ aviso("não consegui mandar"); return; }
+  recarrega();
+}
+
+async function novaConversa(){
+  const d = await api("/api/conversas", {});
+  atual = d.id; quais = "ativas";
+  document.querySelectorAll("#abas button").forEach(b =>
+    b.classList.toggle("on", b.dataset.quais === "ativas"));
+  await abre(d.id);
+}
+
+/* ---------------- anexo, print colado e audio ---------------- */
+function poeAnexo(f){
+  anexo = f;
+  const a = $("#anexado"); a.style.display = "flex";
+  a.innerHTML = "";
+  if (f.type.startsWith("image/")){
+    const img = document.createElement("img"); img.src = URL.createObjectURL(f); a.appendChild(img);
+  }
+  const s = document.createElement("span"); s.textContent = f.name || "anexo"; a.appendChild(s);
+  const x = document.createElement("button"); x.textContent = "✕"; x.onclick = limpaAnexo;
+  a.appendChild(x);
+}
+function limpaAnexo(){ anexo = null; $("#anexado").style.display = "none"; $("#anexado").innerHTML = ""; }
+
+$("#clipe").onclick = () => $("#arquivo").click();
+$("#arquivo").onchange = e => { if (e.target.files[0]) poeAnexo(e.target.files[0]); };
+
+document.addEventListener("paste", e => {
+  for (const it of e.clipboardData.files){ poeAnexo(it); aviso("print colado"); e.preventDefault(); }
+});
+document.addEventListener("dragover", e => e.preventDefault());
+document.addEventListener("drop", e => {
+  e.preventDefault(); if (e.dataTransfer.files[0]) poeAnexo(e.dataTransfer.files[0]);
+});
+
+$("#gravar").onclick = async () => {
+  if (gravador && gravador.state === "recording"){ gravador.stop(); return; }
+  try{
+    const st = await navigator.mediaDevices.getUserMedia({audio:true});
+    gravador = new MediaRecorder(st); pedacos = [];
+    gravador.ondataavailable = e => pedacos.push(e.data);
+    gravador.onstop = () => {
+      st.getTracks().forEach(t => t.stop());
+      $("#gravar").classList.remove("on");
+      const b = new Blob(pedacos, {type:"audio/webm"});
+      poeAnexo(new File([b], "audio.webm", {type:"audio/webm"}));
+      aviso("áudio pronto — toque em enviar");
+    };
+    gravador.start(); $("#gravar").classList.add("on"); aviso("gravando… toque de novo pra parar");
+  } catch(err){ aviso("não consegui usar o microfone"); }
+};
+
+/* ---------------- amarras ---------------- */
+$("#enviar").onclick = envia;
+$("#nova").onclick = novaConversa;
+$("#voltar").onclick = () => document.body.classList.remove("aberta");
+$("#opcoes").onclick = e => { if (atual) menuConversa(e,
+  {id: atual, titulo: $("#titulo").textContent, arquivado: quais === "arquivadas"}); };
+$("#texto").addEventListener("input", e => {
+  e.target.style.height = "auto"; e.target.style.height = Math.min(e.target.scrollHeight, 180) + "px";
+});
+$("#texto").addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey && innerWidth > 760){ e.preventDefault(); envia(); }
+});
+document.querySelectorAll("#abas button").forEach(b => b.onclick = () => {
+  quais = b.dataset.quais;
+  document.querySelectorAll("#abas button").forEach(x => x.classList.toggle("on", x === b));
+  carregaLista();
+});
+
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(()=>{});
+carregaLista().then(() => {
+  const u = localStorage.getItem("ultima");
+  if (u && innerWidth > 760) abre(+u);
+});
+</script>
+</body>
+</html>
