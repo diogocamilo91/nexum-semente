@@ -1,0 +1,13 @@
+{
+  "name": "semente-whatsapp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Espelho so-leitura do WhatsApp do dono (kit NEXUM Semente)",
+  "main": "coletor.js",
+  "scripts": { "start": "node coletor.js", "prova": "node coletor.js --autoteste" },
+  "dependencies": {
+    "baileys": "*",
+    "pino": "^9",
+    "qrcode": "^1.5"
+  }
+}

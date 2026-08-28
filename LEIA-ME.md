@@ -36,12 +36,14 @@ Isto muda o seu ritmo — leia antes de começar:
 | 2 · trancar | `blindar.sh`, `backup.sh`, `monitor-vps.sh` | **rodar** os scripts |
 | 3 · Telegram | `bot.py` inteiro + `nexumctl.sh` | **rodar** o roteiro |
 | 4 · app | **tudo pronto: `instalar.sh` faz sozinho** | rodar 1 comando e conferir |
-| 5 · WhatsApp | a planta (`desenho.md`), não o código | **você escreve o coletor** — de propósito: a biblioteca muda todo mês e código congelado aqui estaria quebrado |
+| 5 · WhatsApp | `instalar.sh` + o coletor + a planta (`desenho.md`) | **rodar** o roteiro — o instalador baixa a biblioteca do dia e prova; **só se ela tiver mudado de forma** é que você constrói pelo `desenho.md` |
 | 6 · Gmail | `gmail.py` pronto | rodar + a autorização do Google (é ela quem clica) |
 | 7 · Drive | `drive.py` / `gdoc.py` prontos | rodar (reusa a credencial do Gmail) |
 
-**Só a etapa 5 é construção.** Se você se pegar escrevendo código nas outras, parou de
-seguir o roteiro — volte e leia o LEIA-ME da etapa.
+**Nenhuma etapa é construção — todas têm script.** A 5 é a única que PODE virar construção,
+e só quando o instalador dela avisar que a biblioteca do WhatsApp mudou. Se você se pegar
+escrevendo código em qualquer outro lugar, parou de seguir o roteiro — volte e leia o
+LEIA-ME da etapa.
 
 ## Regras de conduta (valem a instalação INTEIRA — releia se a conversa esticar)
 
@@ -148,11 +150,20 @@ Explique a diferença das duas portas: **Telegram é o bolso** (recado rápido, 
 
 ### 5. WHATSAPP — `modulos/whatsapp/`
 
-⚠️ **Experimental, e é o único que VOCÊ constrói.** Leia
+⚠️ **Experimental, e é o único que pode virar construção.** Leia
 `modulos/whatsapp/ENTREVISTA.md` e faça a conversa honesta inteira (risco do número,
-privacidade de terceiros). **Não instale se a pessoa hesitou.** Se ela aceitar, siga
-`modulos/whatsapp/LEIA-ME.md` e construa pelo `desenho.md` com a versão ATUAL da
-biblioteca — e respeite o contrato: **só leitura**, dados fora do backup.
+privacidade de terceiros). **Não instale se a pessoa hesitou.**
+
+Se ela aceitar, siga `modulos/whatsapp/LEIA-ME.md`: é `bash modulos/whatsapp/instalar.sh`.
+Ele baixa a biblioteca **na versão de hoje**, confere a trava de só-leitura, prova o que o
+coletor grava sem precisar do celular, liga e deixa o QR pronto. **O pareamento é do dono** —
+você conduz, mas quem aponta a câmera é ele.
+
+Se o instalador parar dizendo que a biblioteca mudou de forma, **aí sim** você constrói pelo
+`modulos/whatsapp/desenho.md`, com a versão atual — e respeitando o contrato: **só leitura**,
+dados fora do backup.
+
+Ao terminar, rode `bash base/app/instalar.sh` de novo: a tela 📱 WhatsApp aparece na gaveta.
 
 ### 6. GMAIL — `modulos/gmail/`
 
