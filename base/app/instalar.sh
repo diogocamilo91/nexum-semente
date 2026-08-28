@@ -84,12 +84,22 @@ ok "flask instalado"
 passo "4/7 escrevendo a configuracao"
 # SEMPRE acrescenta chave; nunca sobrescreve o arquivo (ele guarda o kit inteiro).
 addcfg(){ grep -q "^$1=" "$CONFIG" || echo "$1=$2" >> "$CONFIG"; }
+# Sorteia N caracteres do alfabeto dado. O `head` fecha o cano na cara do `tr`,
+# que morre de SIGPIPE — com `pipefail` isso derruba o instalador inteiro. E so
+# derrubava na PRIMEIRA instalacao (quando ainda nao existe senha), que e
+# justamente a da pessoa nova. Por isso o pipefail sai so aqui dentro.
+sorteia(){
+  local antes; antes=$(set +o | grep pipefail)
+  set +o pipefail
+  LC_ALL=C tr -dc "$1" < /dev/urandom 2>/dev/null | head -c "$2"
+  eval "$antes"
+}
 SENHA_NOVA=""
 if ! grep -q "^CHAT_SENHA=" "$CONFIG"; then
-  SENHA_NOVA="$(tr -dc 'a-z2-9' < /dev/urandom | head -c 5)-$(tr -dc 'a-z2-9' < /dev/urandom | head -c 5)"
+  SENHA_NOVA="$(sorteia 'a-z2-9' 5)-$(sorteia 'a-z2-9' 5)"
   echo "CHAT_SENHA=$SENHA_NOVA" >> "$CONFIG"
 fi
-addcfg CHAT_SEGREDO "$(tr -dc 'a-f0-9' < /dev/urandom | head -c 48)"
+addcfg CHAT_SEGREDO "$(sorteia 'a-f0-9' 48)"
 addcfg CHAT_PORTA 8800
 addcfg CHAT_MAX_TURNOS 2
 chmod 600 "$CONFIG"
